@@ -1,144 +1,345 @@
-/* =========================================
-   DATOS DE PRODUCTOS (Backend simulado)
-   ========================================= */
-const dbProducts = [
-    { id: 1, name: "Camiseta Urban White", price: 45900, category: "camisetas", desc: "Algodón 100% orgánico, corte clásico.", img: "https://via.placeholder.com/250x250/eeeeee/001f3f?text=Camiseta+W" },
-    { id: 2, name: "Jeans Slim Fit Black", price: 89900, category: "pantalones", desc: "Mezclilla elástica, máxima comodidad.", img: "https://via.placeholder.com/250x250/eeeeee/001f3f?text=Jeans+B" },
-    { id: 3, name: "Gorra Snapback Logo", price: 35000, category: "accesorios", desc: "Ajustable, bordado de alta calidad.", img: "https://via.placeholder.com/250x250/eeeeee/001f3f?text=Gorra" },
-    { id: 4, name: "Chaqueta Cortavientos", price: 120000, category: "camisetas", desc: "Impermeable, ideal para clima frío.", img: "https://via.placeholder.com/250x250/eeeeee/001f3f?text=Chaqueta" },
-    { id: 5, name: "Pantalón Jogger Beige", price: 75000, category: "pantalones", desc: "Estilo casual, cintura con cordón.", img: "https://via.placeholder.com/250x250/eeeeee/001f3f?text=Jogger+B" },
-    { id: 6, name: "Morral Porta Laptop", price: 110000, category: "accesorios", desc: "Múltiples compartimentos, ergonómico.", img: "https://via.placeholder.com/250x250/eeeeee/001f3f?text=Morral" },
-    { id: 7, name: "Camiseta Oversize Tie-Dye", price: 55000, category: "camisetas", desc: "Diseño único, tendencia urbana.", img: "https://via.placeholder.com/250x250/eeeeee/001f3f?text=Tie-Dye" },
-    { id: 8, name: "Cinturón de Lona Militar", price: 29900, category: "accesorios", desc: "Hebilla metálica, muy resistente.", img: "https://via.placeholder.com/250x250/eeeeee/001f3f?text=Cinturon" },
-    { id: 9, name: "Sudadera Hoodie con Capucha", price: 95000, category: "camisetas", desc: "Tela cepillada por dentro, muy suave.", img: "https://via.placeholder.com/250x250/eeeeee/001f3f?text=Hoodie" },
-    { id: 10, name: "Shorts de Verano Navy", price: 60000, category: "pantalones", desc: "Tela ligera, secado rápido.", img: "https://via.placeholder.com/250x250/eeeeee/001f3f?text=Shorts" },
-    { id: 11, name: "Gafas de Sol Unisex", price: 49900, category: "accesorios", desc: "Protección UV400, montura negra satinada.", img: "https://via.placeholder.com/250x250/eeeeee/001f3f?text=Gafas" },
-    { id: 12, name: "Polo Premium Azul", price: 65000, category: "camisetas", desc: "Cuello tejido, ajuste elegante.", img: "https://via.placeholder.com/250x250/eeeeee/001f3f?text=Polo+A" },
+/* ==========================================================================
+   MODA CLICK - COLECCIÓN OPHIDEA | LÓGICA DE INTERACCIÓN & CARRITO
+   ========================================================================== */
+
+// Base de Datos de Productos OPHIDEA (20 Productos Reales sin Placeholders)
+const ophideaProducts = [
+    {
+        id: 1,
+        name: "Vestido Serpentine Gold",
+        category: "vestidos",
+        price: 480,
+        rating: 5,
+        image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=800&q=80",
+        description: "Vestido de noche en seda drapeada con aplicaciones metálicas doradas en forma de escama.",
+        colors: ["#D4AF37", "#0B0B0B"],
+        sizes: ["XS", "S", "M", "L"]
+    },
+    {
+        id: 2,
+        name: "Blazer Estructura Cobra",
+        category: "chaquetas",
+        price: 620,
+        rating: 5,
+        image: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=800&q=80",
+        description: "Sastrería rigurosa con solapas cruzadas y silueta inspirada en la capucha de la cobra real.",
+        colors: ["#0B0B0B", "#C0C0C0"],
+        sizes: ["S", "M", "L"]
+    },
+    {
+        id: 3,
+        name: "Botines Relief Scale",
+        category: "calzado",
+        price: 390,
+        rating: 4.8,
+        image: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&w=800&q=80",
+        description: "Botines de cuero ético con grabado láser de textura serpentina y tacón de aguja cromado.",
+        colors: ["#0B0B0B"],
+        sizes: ["36", "37", "38", "39", "40"]
+    },
+    {
+        id: 4,
+        name: "Bolso de Mano Metamorfosis",
+        category: "accesorios",
+        price: 310,
+        rating: 4.9,
+        image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=80",
+        description: "Clutch rígido con broche dorado en forma de víbora y cadena deslizable.",
+        colors: ["#D4AF37", "#2F2F2F"],
+        sizes: ["Única"]
+    },
+    {
+        id: 5,
+        name: "Vestido Negro Venom",
+        category: "vestidos",
+        price: 530,
+        rating: 5,
+        image: "https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=800&q=80",
+        description: "Diseño asimétrico con escote profundo en la espalda y caída fluida de satén negro.",
+        colors: ["#0B0B0B"],
+        sizes: ["S", "M", "L"]
+    },
+    {
+        id: 6,
+        name: "Abrigo Largo Viper Tail",
+        category: "chaquetas",
+        price: 850,
+        rating: 5,
+        image: "https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=800&q=80",
+        description: "Abrigo de lana virgen con forro de seda estampada y cinturón de ajuste con hebilla de serpiente.",
+        colors: ["#2F2F2F", "#0B0B0B"],
+        sizes: ["M", "L", "XL"]
+    },
+    {
+        id: 7,
+        name: "Sandalias Gold Constrictor",
+        category: "calzado",
+        price: 340,
+        rating: 4.7,
+        image: "https://images.unsplash.com/photo-1562273138-f46be4ebdf33?auto=format&fit=crop&w=800&q=80",
+        description: "Sandalias de tiras finas en tono oro brillante que envuelven el tobillo elegantemente.",
+        colors: ["#D4AF37"],
+        sizes: ["36", "37", "38", "39"]
+    },
+    {
+        id: 8,
+        name: "Gafas de Sol Snake Eye",
+        category: "accesorios",
+        price: 210,
+        rating: 4.6,
+        image: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=800&q=80",
+        description: "Montura estilo cat-eye exagerada con marcos metálicos plateados y lentes oscuros UV400.",
+        colors: ["#C0C0C0", "#0B0B0B"],
+        sizes: ["Única"]
+    },
+    {
+        id: 9,
+        name: "Top de Cota Serpentina",
+        category: "vestidos",
+        price: 290,
+        rating: 4.8,
+        image: "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800&q=80",
+        description: "Top elaborado en malla metálica flexible cromada que refleja la luz dramáticamente.",
+        colors: ["#C0C0C0"],
+        sizes: ["XS", "S", "M"]
+    },
+    {
+        id: 10,
+        name: "Pantalón Tailored Escama",
+        category: "vestidos",
+        price: 380,
+        rating: 4.5,
+        image: "https://images.unsplash.com/photo-1509551388413-e18d0ac5d495?auto=format&fit=crop&w=800&q=80",
+        description: "Pantalón corte palazzo de tiro alto con jacquard textil de microrrelieve.",
+        colors: ["#0B0B0B"],
+        sizes: ["S", "M", "L"]
+    },
+    {
+        id: 11,
+        name: "Trench Coat Silver Python",
+        category: "chaquetas",
+        price: 790,
+        rating: 4.9,
+        image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80",
+        description: "Impermeable de lujo con acabado metalizado plateado y solapas amplias.",
+        colors: ["#C0C0C0"],
+        sizes: ["S", "M", "L"]
+    },
+    {
+        id: 12,
+        name: "Mocasines Exotics Royale",
+        category: "calzado",
+        price: 360,
+        rating: 4.7,
+        image: "https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?auto=format&fit=crop&w=800&q=80",
+        description: "Mocasines unisex de piel texturizada con adorno frontal de serpiente dorada.",
+        colors: ["#0B0B0B"],
+        sizes: ["38", "39", "40", "41", "42"]
+    },
+    {
+        id: 13,
+        name: "Cinturón Bifold Ophidea",
+        category: "accesorios",
+        price: 180,
+        rating: 4.8,
+        image: "https://images.unsplash.com/photo-1624222247344-550fb60583dc?auto=format&fit=crop&w=800&q=80",
+        description: "Cinturón de talle ancho de piel de becerro con hebilla escultórica.",
+        colors: ["#0B0B0B", "#D4AF37"],
+        sizes: ["S", "M", "L"]
+    },
+    {
+        id: 14,
+        name: "Vestido Corto Ecdisis",
+        category: "vestidos",
+        price: 410,
+        rating: 4.6,
+        image: "https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=800&q=80",
+        description: "Mini vestido de cóctel con mangas abullonadas y estructura ceñida al cuerpo.",
+        colors: ["#2F2F2F"],
+        sizes: ["XS", "S", "M"]
+    },
+    {
+        id: 15,
+        name: "Chaqueta Biker Scales",
+        category: "chaquetas",
+        price: 680,
+        rating: 5,
+        image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=800&q=80",
+        description: "Chaqueta de cuero rockera reinterpretada con acolchado en hombros en forma de escama.",
+        colors: ["#0B0B0B"],
+        sizes: ["S", "M", "L"]
+    },
+    {
+        id: 16,
+        name: "Stilettos Golden Fang",
+        category: "calzado",
+        price: 420,
+        rating: 4.9,
+        image: "https://images.unsplash.com/photo-1515347619252-60a4bf4fff4f?auto=format&fit=crop&w=800&q=80",
+        description: "Tacones de salón clásicos punta fina con detalle de colmillo metálico en el talón.",
+        colors: ["#0B0B0B", "#D4AF37"],
+        sizes: ["36", "37", "38", "39"]
+    },
+    {
+        id: 17,
+        name: "Anillo Doble Cobra Royale",
+        category: "accesorios",
+        price: 150,
+        rating: 5,
+        image: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=800&q=80",
+        description: "Joya articulada en plata de ley 925 con baño de oro de 18K y ojos de esmeralda sintética.",
+        colors: ["#D4AF37"],
+        sizes: ["6", "7", "8"]
+    },
+    {
+        id: 18,
+        name: "Falda Midi Seduction",
+        category: "vestidos",
+        price: 330,
+        rating: 4.5,
+        image: "https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?auto=format&fit=crop&w=800&q=80",
+        description: "Falda lápiz de satén con abertura lateral pronunciada y drapeado anatómico.",
+        colors: ["#0B0B0B", "#C0C0C0"],
+        sizes: ["S", "M", "L"]
+    },
+    {
+        id: 19,
+        name: "Chaleco de Estructura Ophidea",
+        category: "chaquetas",
+        price: 390,
+        rating: 4.4,
+        image: "https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?auto=format&fit=crop&w=800&q=80",
+        description: "Chaleco de sastrería sin mangas con hombreras marcadas y ajuste de corchetes.",
+        colors: ["#2F2F2F"],
+        sizes: ["S", "M"]
+    },
+    {
+        id: 20,
+        name: "Brazalete Serpentino Cromo",
+        category: "accesorios",
+        price: 195,
+        rating: 4.8,
+        image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=800&q=80",
+        description: "Brazalete rígido de espiral que envuelve el antebrazo con acabado espejo.",
+        colors: ["#C0C0C0"],
+        sizes: ["Ajustable"]
+    }
 ];
 
-// Simulación de productos destacados (los primeros 3)
-const dbFeatured = dbProducts.slice(0, 3);
+// Estado Global de la Aplicación
+let cart = JSON.parse(localStorage.getItem('modaclick_cart')) || [];
+let favorites = JSON.parse(localStorage.getItem('modaclick_favs')) || [];
 
-// Formateador de moneda (COP)
-const formatter = new Intl.NumberFormat('es-CO', {
-    style: 'currency',
-    currency: 'COP',
-    minimumFractionDigits: 0
-});
-
-// Estado del Carrito (Cargar desde LocalStorage)
-let cart = JSON.parse(localStorage.getItem('modaClickCart')) || [];
-
-/* =========================================
-   SELECTORES DOM PRINCIPALES
-   ========================================= */
-const featuredGrid = document.getElementById('featuredGrid');
-const catalogGrid = document.getElementById('catalogGrid');
-const cartCount = document.getElementById('cartCount');
-const cartIconBtn = document.getElementById('cartIconBtn');
-const cartModal = document.getElementById('cartModal');
+// Elementos del DOM
+const productsContainer = document.getElementById('productsContainer');
+const featuredContainer = document.getElementById('featuredContainer');
+const cartSidebar = document.getElementById('cartSidebar');
+const overlayBackdrop = document.getElementById('overlayBackdrop');
+const cartTrigger = document.getElementById('cartTrigger');
 const closeCart = document.getElementById('closeCart');
-const cartItemsContainer = document.getElementById('cartItems');
-const cartTotalPrice = document.getElementById('cartTotalPrice');
-const emptyCartBtn = document.getElementById('emptyCartBtn');
-const productSearch = document.getElementById('productSearch');
-const filterBtns = document.querySelectorAll('.filter-btn');
-const menuToggle = document.getElementById('menuToggle');
-const navLinks = document.getElementById('navLinks');
-const backToTopBtn = document.getElementById('backToTop');
-const toast = document.getElementById('toast');
-const contactForm = document.getElementById('contactForm');
+const cartBody = document.getElementById('cartBody');
+const cartBadge = document.getElementById('cartBadge');
+const cartItemCount = document.getElementById('cartItemCount');
+const cartSubtotal = document.getElementById('cartSubtotal');
+const cartTotal = document.getElementById('cartTotal');
+const favBadge = document.getElementById('favBadge');
+const productModal = document.getElementById('productModal');
+const modalBody = document.getElementById('modalBody');
+const closeModal = document.getElementById('closeModal');
+const scrollTopBtn = document.getElementById('scrollTopBtn');
+const searchTrigger = document.getElementById('searchTrigger');
+const searchOverlay = document.getElementById('searchOverlay');
+const searchClose = document.getElementById('searchClose');
+const searchInput = document.getElementById('searchInput');
 
-/* =========================================
-   FUNCIONES DE INICIALIZACIÓN Y RENDER
-   ========================================= */
-
+// Inicialización del Proyecto
 document.addEventListener('DOMContentLoaded', () => {
-    renderProducts(dbFeatured, featuredGrid); // Render destacados
-    renderProducts(dbProducts, catalogGrid);   // Render catálogo completo
-    updateCartUI(); // Actualizar UI del carrito al cargar
-    setupFormValidation();
+    // Ocultar Loader
+    setTimeout(() => {
+        const loader = document.getElementById('loader');
+        if (loader) {
+            loader.style.opacity = '0';
+            setTimeout(() => loader.style.display = 'none', 500);
+        }
+    }, 1000);
+
+    renderProducts(ophideaProducts, productsContainer);
+    renderFeaturedProducts();
+    updateCartUI();
+    updateFavUI();
+    initHeroSlider();
+    initCountdown();
+    setupEventListeners();
 });
 
-// Función genérica para renderizar productos en una cuadrícula
-function renderProducts(products, gridElement) {
-    gridElement.innerHTML = ''; // Limpiar grilla
-    if (products.length === 0) {
-        gridElement.innerHTML = '<p class="text-muted text-center" style="grid-column: 1/-1;">No se encontraron productos.</p>';
+// Renderizar Cuadrícula de Productos
+function renderProducts(items, container) {
+    if (!container) return;
+    container.innerHTML = '';
+
+    if (items.length === 0) {
+        container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--color-silver);">No se encontraron piezas que coincidan con tu búsqueda.</div>`;
         return;
     }
 
-    products.forEach(product => {
-        const productCard = document.createElement('div');
-        productCard.className = 'product-card card fade-in';
-        productCard.innerHTML = `
-            <div class="product-img-wrapper">
-                <img src="${product.img}" alt="${product.name}">
+    items.forEach(product => {
+        const isFav = favorites.includes(product.id);
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.innerHTML = `
+            <div class="product-thumb">
+                <img src="${product.image}" alt="${product.name}" class="lazy" loading="lazy">
+                <button class="fav-btn ${isFav ? 'active' : ''}" onclick="toggleFavorite(${product.id})">
+                    <i class="${isFav ? 'fas' : 'far'} fa-heart"></i>
+                </button>
             </div>
-            <div class="product-info">
+            <div class="product-details">
                 <span class="product-category">${product.category}</span>
-                <h3>${product.name}</h3>
-                <p class="product-desc">${product.desc}</p>
-                <div class="product-price-row">
-                    <span class="product-price">${formatter.format(product.price)}</span>
-                    <button class="btn btn-primary btn-sm add-to-cart" data-id="${product.id}">
-                        <i class="fas fa-cart-plus"></i>
-                    </button>
+                <h3 class="product-title">${product.name}</h3>
+                <div class="product-price">$${product.price} USD</div>
+                <div class="product-actions">
+                    <button class="btn btn-gold btn-block" onclick="addToCart(${product.id})">Añadir a la Bolsa</button>
+                    <button class="btn btn-outline" onclick="openProductModal(${product.id})" title="Ver Detalles"><i class="fas fa-eye"></i></button>
                 </div>
             </div>
         `;
-        gridElement.appendChild(productCard);
-    });
-
-    // Agregar event listeners a los nuevos botones
-    const addBtns = gridElement.querySelectorAll('.add-to-cart');
-    addBtns.forEach(btn => {
-        btn.addEventListener('click', () => addToCart(parseInt(btn.dataset.id)));
+        container.appendChild(card);
     });
 }
 
-/* =========================================
-   LÓGICA DEL CARRITO DE COMPRAS
-   ========================================= */
-
-// Guardar carrito en LocalStorage
-function saveCart() {
-    localStorage.setItem('modaClickCart', JSON.stringify(cart));
+// Renderizar Productos Destacados
+function renderFeaturedProducts() {
+    const featured = ophideaProducts.filter(p => p.rating >= 4.9).slice(0, 4);
+    renderProducts(featured, featuredContainer);
 }
 
-// Agregar producto al carrito
+// Lógica de Carrito de Compras
 function addToCart(productId) {
-    // Buscar si ya existe en el carrito
-    const existingItem = cart.find(item => item.id === productId);
+    const product = ophideaProducts.find(p => p.id === productId);
+    const existing = cart.find(item => item.id === productId);
 
-    if (existingItem) {
-        existingItem.quantity += 1;
+    if (existing) {
+        existing.quantity++;
     } else {
-        // Buscar info completa del producto
-        const product = dbProducts.find(p => p.id === productId);
-        if (product) {
-            cart.push({ ...product, quantity: 1 });
-        }
+        cart.push({ ...product, quantity: 1 });
     }
 
     saveCart();
     updateCartUI();
-    showToast();
+    openCartSidebar();
+    showToast(`"${product.name}" añadido a la bolsa.`);
 }
 
-// Eliminar item completamente
 function removeFromCart(productId) {
     cart = cart.filter(item => item.id !== productId);
     saveCart();
     updateCartUI();
 }
 
-// Cambiar cantidad (+ o -)
 function changeQuantity(productId, delta) {
-    const item = cart.find(item => item.id === productId);
+    const item = cart.find(i => i.id === productId);
     if (item) {
         item.quantity += delta;
-        // Si baja a 0, eliminar
         if (item.quantity <= 0) {
             removeFromCart(productId);
         } else {
@@ -148,233 +349,281 @@ function changeQuantity(productId, delta) {
     }
 }
 
-// Vaciar carrito
-function emptyCart() {
-    cart = [];
-    saveCart();
-    updateCartUI();
+function saveCart() {
+    localStorage.setItem('modaclick_cart', JSON.stringify(cart));
 }
 
-// Actualizar toda la UI del Carrito (Contador, Sidebar, Total)
 function updateCartUI() {
-    // 1. Actualizar Contador en Nav
-    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-    cartCount.textContent = totalItems;
-    if (totalItems > 0) {
-        cartCount.style.display = 'flex';
-    } else {
-        cartCount.style.display = 'none';
-    }
-
-    // 2. Renderizar Items en Sidebar
-    cartItemsContainer.innerHTML = '';
-    let totalPyament = 0;
+    if (!cartBody) return;
+    cartBody.innerHTML = '';
+    let total = 0;
+    let count = 0;
 
     if (cart.length === 0) {
-        cartItemsContainer.innerHTML = '<p class="empty-cart-msg">Tu carrito está vacío.</p>';
+        cartBody.innerHTML = `<p style="text-align: center; color: var(--color-silver); margin-top: 40px;">Tu bolsa de compras está vacía.</p>`;
     } else {
         cart.forEach(item => {
-            const itemSubtotal = item.price * item.quantity;
-            totalPyament += itemSubtotal;
+            total += item.price * item.quantity;
+            count += item.quantity;
 
-            const itemElement = document.createElement('div');
-            itemElement.className = 'cart-item';
-            itemElement.innerHTML = `
-                <img src="${item.img}" alt="${item.name}" class="cart-item-img">
-                <div class="cart-item-details">
-                    <h4>${item.name}</h4>
-                    <p class="cart-item-price">${formatter.format(item.price)}</p>
+            const itemEl = document.createElement('div');
+            itemEl.className = 'cart-item';
+            itemEl.innerHTML = `
+                <img src="${item.image}" alt="${item.name}">
+                <div style="flex-grow: 1;">
+                    <div class="cart-item-title">${item.name}</div>
+                    <div class="cart-item-price">$${item.price} USD</div>
                     <div class="cart-item-qty">
-                        <button class="qty-btn minus" data-id="${item.id}">-</button>
+                        <button class="qty-btn" onclick="changeQuantity(${item.id}, -1)">-</button>
                         <span>${item.quantity}</span>
-                        <button class="qty-btn plus" data-id="${item.id}">+</button>
+                        <button class="qty-btn" onclick="changeQuantity(${item.id}, 1)">+</button>
                     </div>
                 </div>
-                <i class="fas fa-trash-alt remove-item" data-id="${item.id}"></i>
+                <button style="background:none; border:none; color:#ff4d4d; cursor:pointer;" onclick="removeFromCart(${item.id})">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
             `;
-            cartItemsContainer.appendChild(itemElement);
-        });
-
-        // Event listeners para botones de items
-        cartItemsContainer.querySelectorAll('.minus').forEach(btn => {
-            btn.addEventListener('click', () => changeQuantity(parseInt(btn.dataset.id), -1));
-        });
-        cartItemsContainer.querySelectorAll('.plus').forEach(btn => {
-            btn.addEventListener('click', () => changeQuantity(parseInt(btn.dataset.id), 1));
-        });
-        cartItemsContainer.querySelectorAll('.remove-item').forEach(btn => {
-            btn.addEventListener('click', () => removeFromCart(parseInt(btn.dataset.id)));
+            cartBody.appendChild(itemEl);
         });
     }
 
-    // 3. Actualizar Total
-    cartTotalPrice.textContent = formatter.format(totalPyament);
+    if (cartBadge) cartBadge.textContent = count;
+    if (cartItemCount) cartItemCount.textContent = count;
+    if (cartSubtotal) cartSubtotal.textContent = `$${total} USD`;
+    if (cartTotal) cartTotal.textContent = `$${total} USD`;
 }
 
-// Interacciones Abrir/Cerrar Carrito
-cartIconBtn.addEventListener('click', () => cartModal.classList.add('open'));
-closeCart.addEventListener('click', () => cartModal.classList.remove('open'));
-// Cerrar al hacer click fuera del contenido
-cartModal.addEventListener('click', (e) => {
-    if (e.target === cartModal) cartModal.classList.remove('open');
-});
-
-// Botón Vaciar
-emptyCartBtn.addEventListener('click', emptyCart);
-
-/* =========================================
-   EXTRAS: BÚSQUEDA Y FILTROS
-   ========================================= */
-
-// Lógica de Búsqueda
-productSearch.addEventListener('input', (e) => {
-    const searchTerm = e.target.value.toLowerCase().trim();
-    const filtered = dbProducts.filter(p => 
-        p.name.toLowerCase().includes(searchTerm) || 
-        p.desc.toLowerCase().includes(searchTerm)
-    );
-    renderProducts(filtered, catalogGrid);
-});
-
-// Lógica de Filtros por Categoría
-filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-        // Cambiar clase active
-        document.querySelector('.filter-btn.active').classList.remove('active');
-        btn.classList.add('active');
-
-        const category = btn.dataset.category;
-        if (category === 'all') {
-            renderProducts(dbProducts, catalogGrid);
-        } else {
-            const filtered = dbProducts.filter(p => p.category === category);
-            renderProducts(filtered, catalogGrid);
-        }
-    });
-});
-
-/* =========================================
-   EXTRAS: UI Y ANIMACIONES SCROLL
-   ========================================= */
-
-// Menu Móvil Toggle
-menuToggle.addEventListener('click', () => {
-    navLinks.classList.toggle('open');
-});
-
-// Cerrar menu movil al clickear un link
-document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', () => navLinks.classList.remove('open'));
-});
-
-// Back to Top y Nav activa en scroll
-window.addEventListener('scroll', () => {
-    // Back to Top button
-    if (window.pageYOffset > 500) {
-        backToTopBtn.classList.add('show');
+// Lógica de Favoritos
+function toggleFavorite(productId) {
+    const index = favorites.indexOf(productId);
+    if (index > -1) {
+        favorites.splice(index, 1);
+        showToast("Pieza removida de tus favoritos.");
     } else {
-        backToTopBtn.classList.remove('show');
+        favorites.push(productId);
+        showToast("Pieza guardada en tus favoritos.");
     }
+    localStorage.setItem('modaclick_favs', JSON.stringify(favorites));
+    updateFavUI();
+    renderProducts(ophideaProducts, productsContainer);
+}
 
-    // Cambiar link activo en nav
-    const sections = document.querySelectorAll('section');
-    const navItems = document.querySelectorAll('.nav-links a');
-    let current = '';
+function updateFavUI() {
+    if (favBadge) favBadge.textContent = favorites.length;
+}
 
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.clientHeight;
-        if (pageYOffset >= (sectionTop - 200)) {
-            current = section.getAttribute('id');
-        }
-    });
+// Modal Lightbox
+function openProductModal(productId) {
+    const product = ophideaProducts.find(p => p.id === productId);
+    if (!product || !modalBody) return;
 
-    navItems.forEach(item => {
-        item.classList.remove('active');
-        if (item.getAttribute('href').slice(1) === current) {
-            item.classList.add('active');
-        }
-    });
-    
-    // Animaciones al scroll
-    const animables = document.querySelectorAll('.fade-in-scroll');
-    const triggerBottom = window.innerHeight / 5 * 4;
-    
-    animables.forEach(item => {
-        const itemTop = item.getBoundingClientRect().top;
-        if(itemTop < triggerBottom) {
-            item.classList.add('appear');
-        }
-    });
+    modalBody.innerHTML = `
+        <div>
+            <img src="${product.image}" alt="${product.name}" style="border-radius: 8px; width: 100%;">
+        </div>
+        <div>
+            <span class="gold-subtitle">${product.category}</span>
+            <h2 style="font-size: 2rem; margin-bottom: 10px;">${product.name}</h2>
+            <div style="color: var(--color-gold); margin-bottom: 15px;"><i class="fas fa-star"></i> ${product.rating} / 5.0</div>
+            <p class="paragraph">${product.description}</p>
+            <div style="font-size: 1.8rem; font-weight: 700; margin-bottom: 20px;">$${product.price} USD</div>
+            <div style="margin-bottom: 20px;">
+                <small style="display:block; margin-bottom:5px; color:var(--color-silver);">Tallas Disponibles:</small>
+                ${product.sizes.map(s => `<span style="display:inline-block; border:1px solid var(--color-gray); padding:4px 10px; margin-right:5px; border-radius:4px;">${s}</span>`).join('')}
+            </div>
+            <button class="btn btn-gold btn-block" onclick="addToCart(${product.id}); closeModalWindow();">Agregar a la Bolsa</button>
+        </div>
+    `;
 
-});
+    productModal.classList.add('open');
+}
 
-backToTopBtn.addEventListener('click', () => {
-    window.scrollTo(0, 0);
-});
+function closeModalWindow() {
+    if (productModal) productModal.classList.remove('open');
+}
 
-// Mostrar Toast
-function showToast() {
-    toast.classList.add('show');
+// UI Sidebar Toggle
+function openCartSidebar() {
+    if (cartSidebar) cartSidebar.classList.add('open');
+    if (overlayBackdrop) overlayBackdrop.classList.add('open');
+}
+
+function closeCartSidebar() {
+    if (cartSidebar) cartSidebar.classList.remove('open');
+    if (overlayBackdrop) overlayBackdrop.classList.remove('open');
+}
+
+// Toast System
+function showToast(message) {
+    const container = document.getElementById('toastContainer');
+    if (!container) return;
+
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.innerHTML = `<i class="fas fa-check-circle gold-text" style="margin-right: 10px;"></i> ${message}`;
+    container.appendChild(toast);
+
     setTimeout(() => {
-        toast.classList.remove('show');
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 300);
     }, 3000);
 }
 
-/* =========================================
-   VALIDACIÓN DE FORMULARIO DE CONTACTO
-   ========================================= */
-function setupFormValidation() {
-    if(!contactForm) return;
+// Hero Background Slider
+function initHeroSlider() {
+    const slides = document.querySelectorAll('.hero-bg-slider .slide');
+    if (slides.length < 2) return;
+    let current = 0;
 
-    contactForm.addEventListener('submit', (e) => {
-        e.preventDefault(); // No recargar
+    setInterval(() => {
+        slides[current].classList.remove('active');
+        current = (current + 1) % slides.length;
+        slides[current].classList.add('active');
+    }, 5000);
+}
 
-        const name = document.getElementById('name');
-        const email = document.getElementById('email');
-        const message = document.getElementById('message');
-        const successMsg = document.getElementById('formSuccess');
-        let isValid = true;
+// Countdown Timer Promocional
+function initCountdown() {
+    let seconds = 3600 * 50;
+    const daysEl = document.getElementById('days');
+    const hoursEl = document.getElementById('hours');
+    const minEl = document.getElementById('minutes');
+    const secEl = document.getElementById('seconds');
 
-        // Reset mensajes anteriores
-        document.querySelectorAll('.form-group').forEach(fg => fg.classList.remove('error'));
-        successMsg.style.display = 'none';
+    if (!daysEl) return;
 
-        // Validar Nombre
-        if (name.value.trim().length < 3) {
-            showError(name, 'El nombre debe tener al menos 3 caracteres.');
-            isValid = false;
-        }
+    setInterval(() => {
+        if (seconds <= 0) return;
+        seconds--;
 
-        // Validar Email
-        if (!isValidEmail(email.value.trim())) {
-            showError(email, 'Ingresa un correo electrónico válido.');
-            isValid = false;
-        }
+        const d = Math.floor(seconds / (3600 * 24));
+        const h = Math.floor((seconds % (3600 * 24)) / 3600);
+        const m = Math.floor((seconds % 3600) / 60);
+        const s = Math.floor(seconds % 60);
 
-        // Validar Mensaje
-        if (message.value.trim().length < 10) {
-            showError(message, 'El mensaje debe tener al menos 10 caracteres.');
-            isValid = false;
-        }
+        daysEl.textContent = d < 10 ? '0' + d : d;
+        hoursEl.textContent = h < 10 ? '0' + h : h;
+        minEl.textContent = m < 10 ? '0' + m : m;
+        secEl.textContent = s < 10 ? '0' + s : s;
+    }, 1000);
+}
 
-        if (isValid) {
-            // Simulación de envío exitoso
-            successMsg.style.display = 'block';
-            contactForm.reset();
-            // Ocultar mensaje después de 5s
-            setTimeout(() => successMsg.style.display = 'none', 5000);
+// Event Listeners Globales
+function setupEventListeners() {
+    if (cartTrigger) cartTrigger.addEventListener('click', openCartSidebar);
+    if (closeCart) closeCart.addEventListener('click', closeCartSidebar);
+    if (overlayBackdrop) overlayBackdrop.addEventListener('click', closeCartSidebar);
+    if (closeModal) closeModal.addEventListener('click', closeModalWindow);
+
+    // Menú Responsive Toggle
+    const mobileToggle = document.getElementById('mobileToggle');
+    const navMenu = document.getElementById('navMenu');
+    if (mobileToggle && navMenu) {
+        mobileToggle.addEventListener('click', () => navMenu.classList.toggle('open'));
+    }
+
+    // Scroll Progress & Back to Top
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        
+        const progressBar = document.getElementById('scrollProgress');
+        if (progressBar) progressBar.style.width = scrolled + "%";
+
+        if (scrollTopBtn) {
+            scrollTopBtn.style.display = winScroll > 500 ? 'block' : 'none';
         }
     });
 
-    function showError(input, message) {
-        const formGroup = input.parentElement;
-        formGroup.classList.add('error');
-        const errorElement = formGroup.querySelector('.error-msg');
-        errorElement.textContent = message;
+    if (scrollTopBtn) {
+        scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
     }
 
-    function isValidEmail(email) {
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    // Buscador
+    if (searchTrigger) searchTrigger.addEventListener('click', () => searchOverlay.style.display = 'block');
+    if (searchClose) searchClose.addEventListener('click', () => searchOverlay.style.display = 'none');
+    
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            const filtered = ophideaProducts.filter(p => 
+                p.name.toLowerCase().includes(query) || 
+                p.category.toLowerCase().includes(query) ||
+                p.description.toLowerCase().includes(query)
+            );
+            renderProducts(filtered, productsContainer);
+        });
+    }
+
+    // Filtros de Categoría
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const category = btn.dataset.filter;
+            if (category === 'all') {
+                renderProducts(ophideaProducts, productsContainer);
+            } else {
+                const filtered = ophideaProducts.filter(p => p.category === category);
+                renderProducts(filtered, productsContainer);
+            }
+        });
+    });
+
+    // Ordenamiento
+    const sortSelect = document.getElementById('sortSelect');
+    if (sortSelect) {
+        sortSelect.addEventListener('change', (e) => {
+            const val = e.target.value;
+            let sorted = [...ophideaProducts];
+
+            if (val === 'price-low') sorted.sort((a, b) => a.price - b.price);
+            if (val === 'price-high') sorted.sort((a, b) => b.price - a.price);
+            if (val === 'rating') sorted.sort((a, b) => b.rating - a.rating);
+
+            renderProducts(sorted, productsContainer);
+        });
+    }
+
+    // Validación de Formulario de Contacto
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            let isValid = true;
+
+            const name = document.getElementById('name');
+            const email = document.getElementById('email');
+            const message = document.getElementById('message');
+
+            if (name.value.trim().length < 2) {
+                name.parentElement.classList.add('invalid');
+                isValid = false;
+            } else {
+                name.parentElement.classList.remove('invalid');
+            }
+
+            if (!email.value.includes('@') || !email.value.includes('.')) {
+                email.parentElement.classList.add('invalid');
+                isValid = false;
+            } else {
+                email.parentElement.classList.remove('invalid');
+            }
+
+            if (message.value.trim().length < 10) {
+                message.parentElement.classList.add('invalid');
+                isValid = false;
+            } else {
+                message.parentElement.classList.remove('invalid');
+            }
+
+            if (isValid) {
+                showToast("Mensaje enviado con éxito. Nuestro Atelier te contactará.");
+                contactForm.reset();
+            }
+        });
     }
 }
