@@ -60,10 +60,12 @@ ul {
     list-style: none;
 }
 
-img {
-    max-width: 100%;
-    height: auto;
+img {.logo img {
+    max-height: 50px; /* Ajusta la altura según la barra de navegación */
+    width: auto;      /* Mantiene la proporción de la imagen */
+    object-fit: contain;
     display: block;
+}
 }
 
 /* Scrollbar Personalizado */
