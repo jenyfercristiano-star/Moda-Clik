@@ -65,6 +65,8 @@ img {.logo img {
     width: auto;      /* Mantiene la proporción de la imagen */
     object-fit: contain;
     display: block;
+   background-color: transparent;
+
 }
 }
 
