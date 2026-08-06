@@ -252,6 +252,26 @@ const searchOverlay = document.getElementById('searchOverlay');
 const searchClose = document.getElementById('searchClose');
 const searchInput = document.getElementById('searchInput');
 
+// Elementos Checkout & Post-Compra
+const checkoutBtn = document.getElementById('checkoutBtn');
+const checkoutModal = document.getElementById('checkoutModal');
+const closeCheckoutModal = document.getElementById('closeCheckoutModal');
+const checkoutForm = document.getElementById('checkoutForm');
+const checkoutTotalAmount = document.getElementById('checkoutTotalAmount');
+const cardFields = document.getElementById('cardFields');
+const codFields = document.getElementById('codFields');
+const orderSuccessModal = document.getElementById('orderSuccessModal');
+const closeSuccessBtn = document.getElementById('closeSuccessBtn');
+const orderNumberEl = document.getElementById('orderNumber');
+
+// Elementos Chatbot Flotante
+const chatbotToggle = document.getElementById('chatbotToggle');
+const chatbotWindow = document.getElementById('chatbotWindow');
+const closeChatbot = document.getElementById('closeChatbot');
+const chatbotForm = document.getElementById('chatbotForm');
+const chatbotInput = document.getElementById('chatbotInput');
+const chatbotMessages = document.getElementById('chatbotMessages');
+
 // Inicialización del Proyecto
 document.addEventListener('DOMContentLoaded', () => {
     // Ocultar Loader
@@ -270,6 +290,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initHeroSlider();
     initCountdown();
     setupEventListeners();
+    setupCheckoutLogic();
+    setupChatbotLogic();
 });
 
 // Renderizar Cuadrícula de Productos
@@ -353,19 +375,20 @@ function saveCart() {
     localStorage.setItem('modaclick_cart', JSON.stringify(cart));
 }
 
+function calculateCartSubtotal() {
+    return cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+}
+
 function updateCartUI() {
     if (!cartBody) return;
     cartBody.innerHTML = '';
-    let total = 0;
-    let count = 0;
+    let total = calculateCartSubtotal();
+    let count = cart.reduce((acc, item) => acc + item.quantity, 0);
 
     if (cart.length === 0) {
         cartBody.innerHTML = `<p style="text-align: center; color: var(--color-silver); margin-top: 40px;">Tu bolsa de compras está vacía.</p>`;
     } else {
         cart.forEach(item => {
-            total += item.price * item.quantity;
-            count += item.quantity;
-
             const itemEl = document.createElement('div');
             itemEl.className = 'cart-item';
             itemEl.innerHTML = `
@@ -412,7 +435,7 @@ function updateFavUI() {
     if (favBadge) favBadge.textContent = favorites.length;
 }
 
-// Modal Lightbox
+// Modal Lightbox de Producto
 function openProductModal(productId) {
     const product = ophideaProducts.find(p => p.id === productId);
     if (!product || !modalBody) return;
@@ -506,6 +529,132 @@ function initCountdown() {
         minEl.textContent = m < 10 ? '0' + m : m;
         secEl.textContent = s < 10 ? '0' + s : s;
     }, 1000);
+}
+
+// Lógica de Checkout y Proceso de Pago
+function setupCheckoutLogic() {
+    if (checkoutBtn) {
+        checkoutBtn.addEventListener('click', () => {
+            if (cart.length === 0) {
+                showToast("Tu bolsa de compras está vacía.");
+                return;
+            }
+            closeCartSidebar();
+            if (checkoutTotalAmount) checkoutTotalAmount.textContent = `$${calculateCartSubtotal()} USD`;
+            if (checkoutModal) checkoutModal.classList.add('open');
+        });
+    }
+
+    if (closeCheckoutModal) {
+        closeCheckoutModal.addEventListener('click', () => {
+            if (checkoutModal) checkoutModal.classList.remove('open');
+        });
+    }
+
+    // Alternar campos de pago según opción seleccionada
+    const paymentOptions = document.querySelectorAll('input[name="paymentMethod"]');
+    paymentOptions.forEach(radio => {
+        radio.addEventListener('change', (e) => {
+            if (e.target.value === 'card') {
+                if (cardFields) cardFields.style.display = 'block';
+                if (codFields) codFields.style.display = 'none';
+            } else {
+                if (cardFields) cardFields.style.display = 'none';
+                if (codFields) codFields.style.display = 'block';
+            }
+        });
+    });
+
+    // Envío del Formulario de Checkout
+    if (checkoutForm) {
+        checkoutForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            // Generar número de orden aleatorio
+            const randomOrderNum = '#OPH-' + Math.floor(100000 + Math.random() * 900000);
+            if (orderNumberEl) orderNumberEl.textContent = randomOrderNum;
+
+            // Vaciar Carrito
+            cart = [];
+            saveCart();
+            updateCartUI();
+
+            // Cerrar checkout y abrir modal de éxito
+            if (checkoutModal) checkoutModal.classList.remove('open');
+            if (orderSuccessModal) orderSuccessModal.classList.add('open');
+            checkoutForm.reset();
+        });
+    }
+
+    if (closeSuccessBtn) {
+        closeSuccessBtn.addEventListener('click', () => {
+            if (orderSuccessModal) orderSuccessModal.classList.remove('open');
+        });
+    }
+}
+
+// Lógica del Chatbot de Atención VIP
+function setupChatbotLogic() {
+    if (chatbotToggle) {
+        chatbotToggle.addEventListener('click', () => {
+            if (chatbotWindow) chatbotWindow.classList.toggle('open');
+        });
+    }
+
+    if (closeChatbot) {
+        closeChatbot.addEventListener('click', () => {
+            if (chatbotWindow) chatbotWindow.classList.remove('open');
+        });
+    }
+
+    if (chatbotForm && chatbotInput && chatbotMessages) {
+        chatbotForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const text = chatbotInput.value.trim();
+            if (!text) return;
+
+            // Mensaje del Usuario
+            appendChatMessage(text, 'user-msg');
+            chatbotInput.value = '';
+
+            // Respuesta Automática del Bot
+            setTimeout(() => {
+                const response = getChatbotResponse(text);
+                appendChatMessage(response, 'bot-msg');
+            }, 600);
+        });
+    }
+}
+
+function appendChatMessage(text, className) {
+    if (!chatbotMessages) return;
+    const msgDiv = document.createElement('div');
+    msgDiv.className = `${className} msg`;
+    msgDiv.innerHTML = `<p>${text}</p>`;
+    chatbotMessages.appendChild(msgDiv);
+    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+}
+
+function getChatbotResponse(input) {
+    const query = input.toLowerCase();
+
+    if (query.includes('envio') || query.includes('envío') || query.includes('entrega')) {
+        return "Ofrecemos envíos express internacionales sin costo en compras superiores a $300 USD. Los entregas tardan de 2 a 5 días hábiles.";
+    }
+    if (query.includes('talla') || query.includes('medida')) {
+        return "Nuestras prendas siguen el tallaje europeo estándar. Puedes consultar la guía de tallas en el detalle de cada producto o indicarnos tus medidas para asesorarte.";
+    }
+    if (query.includes('pago') || query.includes('tarjeta') || query.includes('efectivo')) {
+        return "Aceptamos tarjetas de crédito/débito y pago contra entrega al recibir el paquete en tu domicilio.";
+    }
+    if (query.includes('descuento') || query.includes('promo') || query.includes('oferta')) {
+        return "Actualmente disponemos de un 20% de descuento en la línea de calzado y accesorios seleccionados usando la membresía VIP.";
+    }
+    if (query.includes('hola') || query.includes('buenas')) {
+        return "¡Hola! Es un placer atenderte en Moda Click. ¿En qué pieza u oferta de la Colección OPHIDEA estás interesado/a hoy?";
+    }
+
+    return "Gracias por contactarnos. Un concierge de nuestro Atelier responderá a tu inquietud a la brevedad. También puedes contactarnos al email concierge@modaclick.com.";
 }
 
 // Event Listeners Globales
