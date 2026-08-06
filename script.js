@@ -1,778 +1,417 @@
 /* ==========================================================================
-   MODA CLICK - COLECCIÓN OPHIDEA | LÓGICA DE INTERACCIÓN & CARRITO
+   MODA CLICK - COLECCIÓN OPHIDEA (2026)
+   Lógica JavaScript Principal & Contestador Automático (Chatbot VIP)
    ========================================================================== */
 
-// Base de Datos de Productos OPHIDEA (20 Productos Reales sin Placeholders)
-const ophideaProducts = [
+// Configuración de contacto
+const CONFIG = {
+    whatsappNumber: "573243520036",
+    email: "modaclick307@gmail.com"
+};
+
+// Base de Datos de Productos
+const productsData = [
     {
         id: 1,
-        name: "Vestido Serpentine Gold",
+        name: "Vestido Ophidea Gold",
         category: "vestidos",
-        price: 480,
-        rating: 5,
-        image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=800&q=80",
-        description: "Vestido de noche en seda drapeada con aplicaciones metálicas doradas en forma de escama.",
-        colors: ["#D4AF37", "#0B0B0B"],
-        sizes: ["XS", "S", "M", "L"]
+        price: 280000,
+        image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?q=80&w=800",
+        description: "Seda importada con detalles dorados y corte entallado de autor."
     },
     {
         id: 2,
-        name: "Blazer Estructura Cobra",
+        name: "Chaqueta Blazer Velvet",
         category: "chaquetas",
-        price: 620,
-        rating: 5,
-        image: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=800&q=80",
-        description: "Sastrería rigurosa con solapas cruzadas y silueta inspirada en la capucha de la cobra real.",
-        colors: ["#0B0B0B", "#C0C0C0"],
-        sizes: ["S", "M", "L"]
+        price: 340000,
+        image: "https://images.unsplash.com/photo-1548883354-7622d03aca27?q=80&w=800",
+        description: "Terciopelo italiano de alta densidad con botones personalizados."
     },
     {
         id: 3,
-        name: "Botines Relief Scale",
-        category: "calzado",
-        price: 390,
-        rating: 4.8,
-        image: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&w=800&q=80",
-        description: "Botines de cuero ético con grabado láser de textura serpentina y tacón de aguja cromado.",
-        colors: ["#0B0B0B"],
-        sizes: ["36", "37", "38", "39", "40"]
+        name: "Vestido de Gala Noir",
+        category: "vestidos",
+        price: 390000,
+        image: "https://images.unsplash.com/photo-1566174053879-31528523f8ae?q=80&w=800",
+        description: "Escote fluido con caída libre en satén de seda negra."
     },
     {
         id: 4,
-        name: "Bolso de Mano Metamorfosis",
+        name: "Bolso de Mano Serpentine",
         category: "accesorios",
-        price: 310,
-        rating: 4.9,
-        image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=80",
-        description: "Clutch rígido con broche dorado en forma de víbora y cadena deslizable.",
-        colors: ["#D4AF37", "#2F2F2F"],
-        sizes: ["Única"]
+        price: 180000,
+        image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=800",
+        description: "Herrajes dorados con textura efecto serpiente Ophidea."
     },
     {
         id: 5,
-        name: "Vestido Negro Venom",
-        category: "vestidos",
-        price: 530,
-        rating: 5,
-        image: "https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=800&q=80",
-        description: "Diseño asimétrico con escote profundo en la espalda y caída fluida de satén negro.",
-        colors: ["#0B0B0B"],
-        sizes: ["S", "M", "L"]
+        name: "Chaqueta Sastre Imperial",
+        category: "chaquetas",
+        price: 310000,
+        image: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=800",
+        description: "Lana fina liviana con forro interno en seda estampada."
     },
     {
         id: 6,
-        name: "Abrigo Largo Viper Tail",
-        category: "chaquetas",
-        price: 850,
-        rating: 5,
-        image: "https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=800&q=80",
-        description: "Abrigo de lana virgen con forro de seda estampada y cinturón de ajuste con hebilla de serpiente.",
-        colors: ["#2F2F2F", "#0B0B0B"],
-        sizes: ["M", "L", "XL"]
-    },
-    {
-        id: 7,
-        name: "Sandalias Gold Constrictor",
-        category: "calzado",
-        price: 340,
-        rating: 4.7,
-        image: "https://images.unsplash.com/photo-1562273138-f46be4ebdf33?auto=format&fit=crop&w=800&q=80",
-        description: "Sandalias de tiras finas en tono oro brillante que envuelven el tobillo elegantemente.",
-        colors: ["#D4AF37"],
-        sizes: ["36", "37", "38", "39"]
-    },
-    {
-        id: 8,
-        name: "Gafas de Sol Snake Eye",
+        name: "Cinturón Ophidea Monogram",
         category: "accesorios",
-        price: 210,
-        rating: 4.6,
-        image: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=800&q=80",
-        description: "Montura estilo cat-eye exagerada con marcos metálicos plateados y lentes oscuros UV400.",
-        colors: ["#C0C0C0", "#0B0B0B"],
-        sizes: ["Única"]
-    },
-    {
-        id: 9,
-        name: "Top de Cota Serpentina",
-        category: "vestidos",
-        price: 290,
-        rating: 4.8,
-        image: "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800&q=80",
-        description: "Top elaborado en malla metálica flexible cromada que refleja la luz dramáticamente.",
-        colors: ["#C0C0C0"],
-        sizes: ["XS", "S", "M"]
-    },
-    {
-        id: 10,
-        name: "Pantalón Tailored Escama",
-        category: "vestidos",
-        price: 380,
-        rating: 4.5,
-        image: "https://images.unsplash.com/photo-1509551388413-e18d0ac5d495?auto=format&fit=crop&w=800&q=80",
-        description: "Pantalón corte palazzo de tiro alto con jacquard textil de microrrelieve.",
-        colors: ["#0B0B0B"],
-        sizes: ["S", "M", "L"]
-    },
-    {
-        id: 11,
-        name: "Trench Coat Silver Python",
-        category: "chaquetas",
-        price: 790,
-        rating: 4.9,
-        image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80",
-        description: "Impermeable de lujo con acabado metalizado plateado y solapas amplias.",
-        colors: ["#C0C0C0"],
-        sizes: ["S", "M", "L"]
-    },
-    {
-        id: 12,
-        name: "Mocasines Exotics Royale",
-        category: "calzado",
-        price: 360,
-        rating: 4.7,
-        image: "https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?auto=format&fit=crop&w=800&q=80",
-        description: "Mocasines unisex de piel texturizada con adorno frontal de serpiente dorada.",
-        colors: ["#0B0B0B"],
-        sizes: ["38", "39", "40", "41", "42"]
-    },
-    {
-        id: 13,
-        name: "Cinturón Bifold Ophidea",
-        category: "accesorios",
-        price: 180,
-        rating: 4.8,
-        image: "https://images.unsplash.com/photo-1624222247344-550fb60583dc?auto=format&fit=crop&w=800&q=80",
-        description: "Cinturón de talle ancho de piel de becerro con hebilla escultórica.",
-        colors: ["#0B0B0B", "#D4AF37"],
-        sizes: ["S", "M", "L"]
-    },
-    {
-        id: 14,
-        name: "Vestido Corto Ecdisis",
-        category: "vestidos",
-        price: 410,
-        rating: 4.6,
-        image: "https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=800&q=80",
-        description: "Mini vestido de cóctel con mangas abullonadas y estructura ceñida al cuerpo.",
-        colors: ["#2F2F2F"],
-        sizes: ["XS", "S", "M"]
-    },
-    {
-        id: 15,
-        name: "Chaqueta Biker Scales",
-        category: "chaquetas",
-        price: 680,
-        rating: 5,
-        image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=800&q=80",
-        description: "Chaqueta de cuero rockera reinterpretada con acolchado en hombros en forma de escama.",
-        colors: ["#0B0B0B"],
-        sizes: ["S", "M", "L"]
-    },
-    {
-        id: 16,
-        name: "Stilettos Golden Fang",
-        category: "calzado",
-        price: 420,
-        rating: 4.9,
-        image: "https://images.unsplash.com/photo-1515347619252-60a4bf4fff4f?auto=format&fit=crop&w=800&q=80",
-        description: "Tacones de salón clásicos punta fina con detalle de colmillo metálico en el talón.",
-        colors: ["#0B0B0B", "#D4AF37"],
-        sizes: ["36", "37", "38", "39"]
-    },
-    {
-        id: 17,
-        name: "Anillo Doble Cobra Royale",
-        category: "accesorios",
-        price: 150,
-        rating: 5,
-        image: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=800&q=80",
-        description: "Joya articulada en plata de ley 925 con baño de oro de 18K y ojos de esmeralda sintética.",
-        colors: ["#D4AF37"],
-        sizes: ["6", "7", "8"]
-    },
-    {
-        id: 18,
-        name: "Falda Midi Seduction",
-        category: "vestidos",
-        price: 330,
-        rating: 4.5,
-        image: "https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?auto=format&fit=crop&w=800&q=80",
-        description: "Falda lápiz de satén con abertura lateral pronunciada y drapeado anatómico.",
-        colors: ["#0B0B0B", "#C0C0C0"],
-        sizes: ["S", "M", "L"]
-    },
-    {
-        id: 19,
-        name: "Chaleco de Estructura Ophidea",
-        category: "chaquetas",
-        price: 390,
-        rating: 4.4,
-        image: "https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?auto=format&fit=crop&w=800&q=80",
-        description: "Chaleco de sastrería sin mangas con hombreras marcadas y ajuste de corchetes.",
-        colors: ["#2F2F2F"],
-        sizes: ["S", "M"]
-    },
-    {
-        id: 20,
-        name: "Brazalete Serpentino Cromo",
-        category: "accesorios",
-        price: 195,
-        rating: 4.8,
-        image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=800&q=80",
-        description: "Brazalete rígido de espiral que envuelve el antebrazo con acabado espejo.",
-        colors: ["#C0C0C0"],
-        sizes: ["Ajustable"]
+        price: 95000,
+        image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=800",
+        description: "Cuero genuino con hebilla maciza bañada en tono oro."
     }
 ];
 
-// Estado Global de la Aplicación
-let cart = JSON.parse(localStorage.getItem('modaclick_cart')) || [];
-let favorites = JSON.parse(localStorage.getItem('modaclick_favs')) || [];
+// Estado global del carrito
+let cart = [];
 
-// Elementos del DOM
-const productsContainer = document.getElementById('productsContainer');
-const featuredContainer = document.getElementById('featuredContainer');
-const cartSidebar = document.getElementById('cartSidebar');
-const overlayBackdrop = document.getElementById('overlayBackdrop');
-const cartTrigger = document.getElementById('cartTrigger');
-const closeCart = document.getElementById('closeCart');
-const cartBody = document.getElementById('cartBody');
-const cartBadge = document.getElementById('cartBadge');
-const cartItemCount = document.getElementById('cartItemCount');
-const cartSubtotal = document.getElementById('cartSubtotal');
-const cartTotal = document.getElementById('cartTotal');
-const favBadge = document.getElementById('favBadge');
-const productModal = document.getElementById('productModal');
-const modalBody = document.getElementById('modalBody');
-const closeModal = document.getElementById('closeModal');
-const scrollTopBtn = document.getElementById('scrollTopBtn');
-const searchTrigger = document.getElementById('searchTrigger');
-const searchOverlay = document.getElementById('searchOverlay');
-const searchClose = document.getElementById('searchClose');
-const searchInput = document.getElementById('searchInput');
-
-// Elementos Checkout & Post-Compra
-const checkoutBtn = document.getElementById('checkoutBtn');
-const checkoutModal = document.getElementById('checkoutModal');
-const closeCheckoutModal = document.getElementById('closeCheckoutModal');
-const checkoutForm = document.getElementById('checkoutForm');
-const checkoutTotalAmount = document.getElementById('checkoutTotalAmount');
-const cardFields = document.getElementById('cardFields');
-const codFields = document.getElementById('codFields');
-const orderSuccessModal = document.getElementById('orderSuccessModal');
-const closeSuccessBtn = document.getElementById('closeSuccessBtn');
-const orderNumberEl = document.getElementById('orderNumber');
-
-// Elementos Chatbot Flotante
-const chatbotToggle = document.getElementById('chatbotToggle');
-const chatbotWindow = document.getElementById('chatbotWindow');
-const closeChatbot = document.getElementById('closeChatbot');
-const chatbotForm = document.getElementById('chatbotForm');
-const chatbotInput = document.getElementById('chatbotInput');
-const chatbotMessages = document.getElementById('chatbotMessages');
-
-// Inicialización del Proyecto
-document.addEventListener('DOMContentLoaded', () => {
-    // Ocultar Loader
-    setTimeout(() => {
-        const loader = document.getElementById('loader');
-        if (loader) {
-            loader.style.opacity = '0';
-            setTimeout(() => loader.style.display = 'none', 500);
-        }
-    }, 1000);
-
-    renderProducts(ophideaProducts, productsContainer);
-    renderFeaturedProducts();
-    updateCartUI();
-    updateFavUI();
-    initHeroSlider();
-    initCountdown();
-    setupEventListeners();
-    setupCheckoutLogic();
-    setupChatbotLogic();
+// DOM Loaded Inicial
+document.addEventListener("DOMContentLoaded", () => {
+    initScrollProgress();
+    renderProducts(productsData);
+    initFilterSystem();
+    initSearchSystem();
+    initCartSystem();
+    initContactForm();
+    initChatbot();
 });
 
-// Renderizar Cuadrícula de Productos
-function renderProducts(items, container) {
-    if (!container) return;
-    container.innerHTML = '';
+/* ==========================================================================
+   1. BARRAS DE NAVEGACIÓN Y SCROLL
+   ========================================================================== */
+function initScrollProgress() {
+    const progressBar = document.getElementById("progressBar");
+    window.addEventListener("scroll", () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        if (progressBar) progressBar.style.width = scrolled + "%";
+    });
 
-    if (items.length === 0) {
-        container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--color-silver);">No se encontraron piezas que coincidan con tu búsqueda.</div>`;
+    // Menú móvil
+    const mobileToggle = document.getElementById("mobileToggle");
+    const navMenu = document.getElementById("navMenu");
+    if (mobileToggle && navMenu) {
+        mobileToggle.addEventListener("click", () => {
+            navMenu.classList.toggle("active");
+        });
+    }
+}
+
+/* ==========================================================================
+   2. CATÁLOGO Y FILTROS
+   ========================================================================== */
+function renderProducts(products) {
+    const grid = document.getElementById("productsGrid");
+    if (!grid) return;
+
+    grid.innerHTML = "";
+
+    if (products.length === 0) {
+        grid.innerHTML = `<p class="paragraph text-center" style="grid-column: 1/-1;">No se encontraron productos en esta categoría.</p>`;
         return;
     }
 
-    items.forEach(product => {
-        const isFav = favorites.includes(product.id);
-        const card = document.createElement('div');
-        card.className = 'product-card';
+    products.forEach(p => {
+        const card = document.createElement("div");
+        card.className = "product-card glassmorphism";
         card.innerHTML = `
-            <div class="product-thumb">
-                <img src="${product.image}" alt="${product.name}" class="lazy" loading="lazy">
-                <button class="fav-btn ${isFav ? 'active' : ''}" onclick="toggleFavorite(${product.id})">
-                    <i class="${isFav ? 'fas' : 'far'} fa-heart"></i>
-                </button>
+            <div class="product-img-box">
+                <img src="${p.image}" alt="${p.name}">
             </div>
-            <div class="product-details">
-                <span class="product-category">${product.category}</span>
-                <h3 class="product-title">${product.name}</h3>
-                <div class="product-price">$${product.price} USD</div>
-                <div class="product-actions">
-                    <button class="btn btn-gold btn-block" onclick="addToCart(${product.id})">Añadir a la Bolsa</button>
-                    <button class="btn btn-outline" onclick="openProductModal(${product.id})" title="Ver Detalles"><i class="fas fa-eye"></i></button>
+            <div class="product-info">
+                <span class="product-cat">${p.category.toUpperCase()}</span>
+                <h3 class="product-title">${p.name}</h3>
+                <p class="product-desc">${p.description}</p>
+                <div class="product-footer">
+                    <span class="product-price">$${p.price.toLocaleString("es-CO")} COP</span>
+                    <button class="btn-add-cart" onclick="addToCart(${p.id})">
+                        <i class="fas fa-cart-plus"></i> Agregar
+                    </button>
                 </div>
             </div>
         `;
-        container.appendChild(card);
+        grid.appendChild(card);
     });
 }
 
-// Renderizar Productos Destacados
-function renderFeaturedProducts() {
-    const featured = ophideaProducts.filter(p => p.rating >= 4.9).slice(0, 4);
-    renderProducts(featured, featuredContainer);
+function initFilterSystem() {
+    const filterBtns = document.querySelectorAll(".filter-btn");
+    filterBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+            filterBtns.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            const filter = btn.dataset.filter;
+            if (filter === "all") {
+                renderProducts(productsData);
+            } else {
+                const filtered = productsData.filter(p => p.category === filter);
+                renderProducts(filtered);
+            }
+        });
+    });
 }
 
-// Lógica de Carrito de Compras
-function addToCart(productId) {
-    const product = ophideaProducts.find(p => p.id === productId);
-    const existing = cart.find(item => item.id === productId);
+/* ==========================================================================
+   3. BUSCADOR DESPLEGABLE
+   ========================================================================== */
+function initSearchSystem() {
+    const searchBtn = document.getElementById("searchBtn");
+    const closeSearch = document.getElementById("closeSearch");
+    const searchOverlay = document.getElementById("searchOverlay");
+    const searchInput = document.getElementById("searchInput");
 
+    if (searchBtn && searchOverlay) {
+        searchBtn.addEventListener("click", () => {
+            searchOverlay.classList.add("active");
+            if (searchInput) searchInput.focus();
+        });
+    }
+
+    if (closeSearch && searchOverlay) {
+        closeSearch.addEventListener("click", () => {
+            searchOverlay.classList.remove("active");
+        });
+    }
+
+    if (searchInput) {
+        searchInput.addEventListener("input", (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            const filtered = productsData.filter(p => 
+                p.name.toLowerCase().includes(query) || 
+                p.description.toLowerCase().includes(query)
+            );
+            renderProducts(filtered);
+        });
+    }
+}
+
+/* ==========================================================================
+   4. SISTEMA DE CARRITO DE COMPRAS
+   ========================================================================== */
+function initCartSystem() {
+    const cartBtn = document.getElementById("cartBtn");
+    const closeCart = document.getElementById("closeCart");
+    const cartSidebar = document.getElementById("cartSidebar");
+    const overlayBackdrop = document.getElementById("overlayBackdrop");
+    const checkoutBtn = document.getElementById("checkoutBtn");
+
+    const toggleCart = (show) => {
+        if (show) {
+            cartSidebar.classList.add("active");
+            overlayBackdrop.classList.add("active");
+        } else {
+            cartSidebar.classList.remove("active");
+            overlayBackdrop.classList.remove("active");
+        }
+    };
+
+    if (cartBtn) cartBtn.addEventListener("click", () => toggleCart(true));
+    if (closeCart) closeCart.addEventListener("click", () => toggleCart(false));
+    if (overlayBackdrop) overlayBackdrop.addEventListener("click", () => toggleCart(false));
+
+    if (checkoutBtn) {
+        checkoutBtn.addEventListener("click", sendCartToWhatsApp);
+    }
+}
+
+function addToCart(productId) {
+    const product = productsData.find(p => p.id === productId);
+    if (!product) return;
+
+    const existing = cart.find(item => item.id === productId);
     if (existing) {
-        existing.quantity++;
+        existing.quantity += 1;
     } else {
         cart.push({ ...product, quantity: 1 });
     }
 
-    saveCart();
     updateCartUI();
-    openCartSidebar();
-    showToast(`"${product.name}" añadido a la bolsa.`);
+    document.getElementById("cartSidebar").classList.add("active");
+    document.getElementById("overlayBackdrop").classList.add("active");
 }
 
-function removeFromCart(productId) {
-    cart = cart.filter(item => item.id !== productId);
-    saveCart();
-    updateCartUI();
-}
-
-function changeQuantity(productId, delta) {
+function updateCartQuantity(productId, delta) {
     const item = cart.find(i => i.id === productId);
-    if (item) {
-        item.quantity += delta;
-        if (item.quantity <= 0) {
-            removeFromCart(productId);
-        } else {
-            saveCart();
-            updateCartUI();
-        }
+    if (!item) return;
+
+    item.quantity += delta;
+    if (item.quantity <= 0) {
+        cart = cart.filter(i => i.id !== productId);
     }
-}
-
-function saveCart() {
-    localStorage.setItem('modaclick_cart', JSON.stringify(cart));
-}
-
-function calculateCartSubtotal() {
-    return cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+    updateCartUI();
 }
 
 function updateCartUI() {
+    const cartBody = document.getElementById("cartBody");
+    const cartCount = document.getElementById("cartCount");
+    const cartTotal = document.getElementById("cartTotal");
+
     if (!cartBody) return;
-    cartBody.innerHTML = '';
-    let total = calculateCartSubtotal();
-    let count = cart.reduce((acc, item) => acc + item.quantity, 0);
+
+    cartBody.innerHTML = "";
+    let total = 0;
+    let totalItems = 0;
 
     if (cart.length === 0) {
-        cartBody.innerHTML = `<p style="text-align: center; color: var(--color-silver); margin-top: 40px;">Tu bolsa de compras está vacía.</p>`;
+        cartBody.innerHTML = `<p class="text-center paragraph mt-4">Tu carrito está vacío.</p>`;
     } else {
         cart.forEach(item => {
-            const itemEl = document.createElement('div');
-            itemEl.className = 'cart-item';
-            itemEl.innerHTML = `
-                <img src="${item.image}" alt="${item.name}">
-                <div style="flex-grow: 1;">
-                    <div class="cart-item-title">${item.name}</div>
-                    <div class="cart-item-price">$${item.price} USD</div>
-                    <div class="cart-item-qty">
-                        <button class="qty-btn" onclick="changeQuantity(${item.id}, -1)">-</button>
-                        <span>${item.quantity}</span>
-                        <button class="qty-btn" onclick="changeQuantity(${item.id}, 1)">+</button>
-                    </div>
+            const itemSubtotal = item.price * item.quantity;
+            total += itemSubtotal;
+            totalItems += item.quantity;
+
+            const cartItemHTML = document.createElement("div");
+            cartItemHTML.className = "cart-item";
+            cartItemHTML.style.cssText = "display:flex; align-items:center; justify-content:space-between; margin-bottom:15px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px;";
+            cartItemHTML.innerHTML = `
+                <div style="flex:1;">
+                    <h5 style="color:var(--color-gold); font-size:0.9rem;">${item.name}</h5>
+                    <small style="color:var(--color-silver);">$${item.price.toLocaleString("es-CO")} x ${item.quantity}</small>
                 </div>
-                <button style="background:none; border:none; color:#ff4d4d; cursor:pointer;" onclick="removeFromCart(${item.id})">
-                    <i class="fas fa-trash-alt"></i>
-                </button>
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <button style="background:#222; color:#fff; border:1px solid #444; width:25px; height:25px; cursor:pointer;" onclick="updateCartQuantity(${item.id}, -1)">-</button>
+                    <span>${item.quantity}</span>
+                    <button style="background:#222; color:#fff; border:1px solid #444; width:25px; height:25px; cursor:pointer;" onclick="updateCartQuantity(${item.id}, 1)">+</button>
+                </div>
             `;
-            cartBody.appendChild(itemEl);
+            cartBody.appendChild(cartItemHTML);
         });
     }
 
-    if (cartBadge) cartBadge.textContent = count;
-    if (cartItemCount) cartItemCount.textContent = count;
-    if (cartSubtotal) cartSubtotal.textContent = `$${total} USD`;
-    if (cartTotal) cartTotal.textContent = `$${total} USD`;
+    if (cartCount) cartCount.textContent = totalItems;
+    if (cartTotal) cartTotal.textContent = `$${total.toLocaleString("es-CO")} COP`;
 }
 
-// Lógica de Favoritos
-function toggleFavorite(productId) {
-    const index = favorites.indexOf(productId);
-    if (index > -1) {
-        favorites.splice(index, 1);
-        showToast("Pieza removida de tus favoritos.");
-    } else {
-        favorites.push(productId);
-        showToast("Pieza guardada en tus favoritos.");
-    }
-    localStorage.setItem('modaclick_favs', JSON.stringify(favorites));
-    updateFavUI();
-    renderProducts(ophideaProducts, productsContainer);
-}
-
-function updateFavUI() {
-    if (favBadge) favBadge.textContent = favorites.length;
-}
-
-// Modal Lightbox de Producto
-function openProductModal(productId) {
-    const product = ophideaProducts.find(p => p.id === productId);
-    if (!product || !modalBody) return;
-
-    modalBody.innerHTML = `
-        <div>
-            <img src="${product.image}" alt="${product.name}" style="border-radius: 8px; width: 100%;">
-        </div>
-        <div>
-            <span class="gold-subtitle">${product.category}</span>
-            <h2 style="font-size: 2rem; margin-bottom: 10px;">${product.name}</h2>
-            <div style="color: var(--color-gold); margin-bottom: 15px;"><i class="fas fa-star"></i> ${product.rating} / 5.0</div>
-            <p class="paragraph">${product.description}</p>
-            <div style="font-size: 1.8rem; font-weight: 700; margin-bottom: 20px;">$${product.price} USD</div>
-            <div style="margin-bottom: 20px;">
-                <small style="display:block; margin-bottom:5px; color:var(--color-silver);">Tallas Disponibles:</small>
-                ${product.sizes.map(s => `<span style="display:inline-block; border:1px solid var(--color-gray); padding:4px 10px; margin-right:5px; border-radius:4px;">${s}</span>`).join('')}
-            </div>
-            <button class="btn btn-gold btn-block" onclick="addToCart(${product.id}); closeModalWindow();">Agregar a la Bolsa</button>
-        </div>
-    `;
-
-    productModal.classList.add('open');
-}
-
-function closeModalWindow() {
-    if (productModal) productModal.classList.remove('open');
-}
-
-// UI Sidebar Toggle
-function openCartSidebar() {
-    if (cartSidebar) cartSidebar.classList.add('open');
-    if (overlayBackdrop) overlayBackdrop.classList.add('open');
-}
-
-function closeCartSidebar() {
-    if (cartSidebar) cartSidebar.classList.remove('open');
-    if (overlayBackdrop) overlayBackdrop.classList.remove('open');
-}
-
-// Toast System
-function showToast(message) {
-    const container = document.getElementById('toastContainer');
-    if (!container) return;
-
-    const toast = document.createElement('div');
-    toast.className = 'toast';
-    toast.innerHTML = `<i class="fas fa-check-circle gold-text" style="margin-right: 10px;"></i> ${message}`;
-    container.appendChild(toast);
-
-    setTimeout(() => {
-        toast.style.opacity = '0';
-        setTimeout(() => toast.remove(), 300);
-    }, 3000);
-}
-
-// Hero Background Slider
-function initHeroSlider() {
-    const slides = document.querySelectorAll('.hero-bg-slider .slide');
-    if (slides.length < 2) return;
-    let current = 0;
-
-    setInterval(() => {
-        slides[current].classList.remove('active');
-        current = (current + 1) % slides.length;
-        slides[current].classList.add('active');
-    }, 5000);
-}
-
-// Countdown Timer Promocional
-function initCountdown() {
-    let seconds = 3600 * 50;
-    const daysEl = document.getElementById('days');
-    const hoursEl = document.getElementById('hours');
-    const minEl = document.getElementById('minutes');
-    const secEl = document.getElementById('seconds');
-
-    if (!daysEl) return;
-
-    setInterval(() => {
-        if (seconds <= 0) return;
-        seconds--;
-
-        const d = Math.floor(seconds / (3600 * 24));
-        const h = Math.floor((seconds % (3600 * 24)) / 3600);
-        const m = Math.floor((seconds % 3600) / 60);
-        const s = Math.floor(seconds % 60);
-
-        daysEl.textContent = d < 10 ? '0' + d : d;
-        hoursEl.textContent = h < 10 ? '0' + h : h;
-        minEl.textContent = m < 10 ? '0' + m : m;
-        secEl.textContent = s < 10 ? '0' + s : s;
-    }, 1000);
-}
-
-// Lógica de Checkout y Proceso de Pago
-function setupCheckoutLogic() {
-    if (checkoutBtn) {
-        checkoutBtn.addEventListener('click', () => {
-            if (cart.length === 0) {
-                showToast("Tu bolsa de compras está vacía.");
-                return;
-            }
-            closeCartSidebar();
-            if (checkoutTotalAmount) checkoutTotalAmount.textContent = `$${calculateCartSubtotal()} USD`;
-            if (checkoutModal) checkoutModal.classList.add('open');
-        });
+function sendCartToWhatsApp() {
+    if (cart.length === 0) {
+        alert("Tu carrito está vacío. Agrega productos para realizar un pedido.");
+        return;
     }
 
-    if (closeCheckoutModal) {
-        closeCheckoutModal.addEventListener('click', () => {
-            if (checkoutModal) checkoutModal.classList.remove('open');
-        });
-    }
+    let message = "¡Hola Moda Click! Deseo realizar el siguiente pedido de la Colección Ophidea:\n\n";
+    let total = 0;
 
-    // Alternar campos de pago según opción seleccionada
-    const paymentOptions = document.querySelectorAll('input[name="paymentMethod"]');
-    paymentOptions.forEach(radio => {
-        radio.addEventListener('change', (e) => {
-            if (e.target.value === 'card') {
-                if (cardFields) cardFields.style.display = 'block';
-                if (codFields) codFields.style.display = 'none';
-            } else {
-                if (cardFields) cardFields.style.display = 'none';
-                if (codFields) codFields.style.display = 'block';
-            }
-        });
+    cart.forEach(item => {
+        const subtotal = item.price * item.quantity;
+        total += subtotal;
+        message += `• ${item.name} (x${item.quantity}) - $${subtotal.toLocaleString("es-CO")} COP\n`;
     });
 
-    // Envío del Formulario de Checkout
-    if (checkoutForm) {
-        checkoutForm.addEventListener('submit', (e) => {
-            e.preventDefault();
+    message += `\n*Total a Pagar:* $${total.toLocaleString("es-CO")} COP\n`;
+    message += "Quedo a la espera para confirmar el pago y los datos de envío.";
 
-            // Generar número de orden aleatorio
-            const randomOrderNum = '#OPH-' + Math.floor(100000 + Math.random() * 900000);
-            if (orderNumberEl) orderNumberEl.textContent = randomOrderNum;
-
-            // Vaciar Carrito
-            cart = [];
-            saveCart();
-            updateCartUI();
-
-            // Cerrar checkout y abrir modal de éxito
-            if (checkoutModal) checkoutModal.classList.remove('open');
-            if (orderSuccessModal) orderSuccessModal.classList.add('open');
-            checkoutForm.reset();
-        });
-    }
-
-    if (closeSuccessBtn) {
-        closeSuccessBtn.addEventListener('click', () => {
-            if (orderSuccessModal) orderSuccessModal.classList.remove('open');
-        });
-    }
+    const url = `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(message)}`;
+    window.open(url, "_blank");
 }
 
-// Lógica del Chatbot de Atención VIP
-function setupChatbotLogic() {
-    if (chatbotToggle) {
-        chatbotToggle.addEventListener('click', () => {
-            if (chatbotWindow) chatbotWindow.classList.toggle('open');
-        });
-    }
+/* ==========================================================================
+   5. FORMULARIO DE CONTACTO DIRECTO A WHATSAPP
+   ========================================================================== */
+function initContactForm() {
+    const contactForm = document.getElementById("contactForm");
+    if (!contactForm) return;
+
+    contactForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const name = document.getElementById("contactName").value;
+        const email = document.getElementById("contactEmail").value;
+        const userMsg = document.getElementById("contactMessage").value;
+
+        const formattedMsg = `*NUEVA SOLICITUD DE CLIENTE - MODA CLICK*\n\n` +
+            `*Nombre:* ${name}\n` +
+            `*Correo:* ${email}\n` +
+            `*Mensaje:* ${userMsg}\n\n` +
+            `Solicitud enviada desde la web de Colección Ophidea.`;
+
+        const url = `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(formattedMsg)}`;
+        window.open(url, "_blank");
+        contactForm.reset();
+    });
+}
+
+/* ==========================================================================
+   6. CONTESTADOR AUTOMÁTICO (CHATBOT VIP)
+   ========================================================================== */
+function initChatbot() {
+    const chatbotToggle = document.getElementById("chatbotToggle");
+    const chatbotWindow = document.getElementById("chatbotWindow");
+    const closeChatbot = document.getElementById("closeChatbot");
+    const sendChatMsg = document.getElementById("sendChatMsg");
+    const chatInput = document.getElementById("chatInput");
+
+    if (!chatbotToggle || !chatbotWindow) return;
+
+    chatbotToggle.addEventListener("click", () => {
+        chatbotWindow.classList.toggle("active");
+    });
 
     if (closeChatbot) {
-        closeChatbot.addEventListener('click', () => {
-            if (chatbotWindow) chatbotWindow.classList.remove('open');
+        closeChatbot.addEventListener("click", () => {
+            chatbotWindow.classList.remove("active");
         });
     }
 
-    if (chatbotForm && chatbotInput && chatbotMessages) {
-        chatbotForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const text = chatbotInput.value.trim();
-            if (!text) return;
-
-            // Mensaje del Usuario
-            appendChatMessage(text, 'user-msg');
-            chatbotInput.value = '';
-
-            // Respuesta Automática del Bot
-            setTimeout(() => {
-                const response = getChatbotResponse(text);
-                appendChatMessage(response, 'bot-msg');
-            }, 600);
+    if (sendChatMsg && chatInput) {
+        sendChatMsg.addEventListener("click", () => handleUserChatMessage());
+        chatInput.addEventListener("keypress", (e) => {
+            if (e.key === "Enter") handleUserChatMessage();
         });
     }
 }
 
-function appendChatMessage(text, className) {
-    if (!chatbotMessages) return;
-    const msgDiv = document.createElement('div');
-    msgDiv.className = `${className} msg`;
-    msgDiv.innerHTML = `<p>${text}</p>`;
-    chatbotMessages.appendChild(msgDiv);
-    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+function handleUserChatMessage() {
+    const chatInput = document.getElementById("chatInput");
+    const text = chatInput.value.trim();
+    if (!text) return;
+
+    appendChatMessage(text, "user");
+    chatInput.value = "";
+
+    setTimeout(() => {
+        const botReply = generateBotResponse(text);
+        appendChatMessage(botReply, "bot");
+    }, 600);
 }
 
-function getChatbotResponse(input) {
-    const query = input.toLowerCase();
-
-    if (query.includes('envio') || query.includes('envío') || query.includes('entrega')) {
-        return "Ofrecemos envíos express internacionales sin costo en compras superiores a $300 USD. Los entregas tardan de 2 a 5 días hábiles.";
-    }
-    if (query.includes('talla') || query.includes('medida')) {
-        return "Nuestras prendas siguen el tallaje europeo estándar. Puedes consultar la guía de tallas en el detalle de cada producto o indicarnos tus medidas para asesorarte.";
-    }
-    if (query.includes('pago') || query.includes('tarjeta') || query.includes('efectivo')) {
-        return "Aceptamos tarjetas de crédito/débito y pago contra entrega al recibir el paquete en tu domicilio.";
-    }
-    if (query.includes('descuento') || query.includes('promo') || query.includes('oferta')) {
-        return "Actualmente disponemos de un 20% de descuento en la línea de calzado y accesorios seleccionados usando la membresía VIP.";
-    }
-    if (query.includes('hola') || query.includes('buenas')) {
-        return "¡Hola! Es un placer atenderte en Moda Click. ¿En qué pieza u oferta de la Colección OPHIDEA estás interesado/a hoy?";
-    }
-
-    return "Gracias por contactarnos. Un concierge de nuestro Atelier responderá a tu inquietud a la brevedad. También puedes contactarnos al email concierge@modaclick.com.";
+function sendQuickReply(optionText) {
+    appendChatMessage(optionText, "user");
+    setTimeout(() => {
+        const botReply = generateBotResponse(optionText);
+        appendChatMessage(botReply, "bot");
+    }, 600);
 }
 
-// Event Listeners Globales
-function setupEventListeners() {
-    if (cartTrigger) cartTrigger.addEventListener('click', openCartSidebar);
-    if (closeCart) closeCart.addEventListener('click', closeCartSidebar);
-    if (overlayBackdrop) overlayBackdrop.addEventListener('click', closeCartSidebar);
-    if (closeModal) closeModal.addEventListener('click', closeModalWindow);
+function appendChatMessage(message, sender) {
+    const chatMessages = document.getElementById("chatMessages");
+    if (!chatMessages) return;
 
-    // Menú Responsive Toggle
-    const mobileToggle = document.getElementById('mobileToggle');
-    const navMenu = document.getElementById('navMenu');
-    if (mobileToggle && navMenu) {
-        mobileToggle.addEventListener('click', () => navMenu.classList.toggle('open'));
+    const msgDiv = document.createElement("div");
+    msgDiv.className = `msg ${sender}-msg`;
+    msgDiv.innerHTML = message;
+
+    chatMessages.appendChild(msgDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function generateBotResponse(input) {
+    const cleanInput = input.toLowerCase();
+
+    if (cleanInput.includes("precio") || cleanInput.includes("catálogo") || cleanInput.includes("catalogo") || cleanInput.includes("costo")) {
+        return `Nuestros vestidos y prendas de la Colección Ophidea oscilan entre los $95.000 y $390.000 COP. Puedes explorar el catálogo completo arriba o hacer tu pedido personalizado por <a href="https://wa.me/${CONFIG.whatsappNumber}" target="_blank" style="color:var(--color-gold); font-weight:bold;">WhatsApp aquí</a>.`;
     }
 
-    // Scroll Progress & Back to Top
-    window.addEventListener('scroll', () => {
-        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const scrolled = (winScroll / height) * 100;
-        
-        const progressBar = document.getElementById('scrollProgress');
-        if (progressBar) progressBar.style.width = scrolled + "%";
-
-        if (scrollTopBtn) {
-            scrollTopBtn.style.display = winScroll > 500 ? 'block' : 'none';
-        }
-    });
-
-    if (scrollTopBtn) {
-        scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    if (cleanInput.includes("talla") || cleanInput.includes("medida") || cleanInput.includes("guía")) {
+        return `Manejamos tallas estándar XS, S, M y L. Además, ofrecemos el servicio de **entalle personalizado** para prendas de la Colección Ophidea. ¿Te gustaría asesoría con tus medidas?`;
     }
 
-    // Buscador
-    if (searchTrigger) searchTrigger.addEventListener('click', () => searchOverlay.style.display = 'block');
-    if (searchClose) searchClose.addEventListener('click', () => searchOverlay.style.display = 'none');
-    
-    if (searchInput) {
-        searchInput.addEventListener('input', (e) => {
-            const query = e.target.value.toLowerCase().trim();
-            const filtered = ophideaProducts.filter(p => 
-                p.name.toLowerCase().includes(query) || 
-                p.category.toLowerCase().includes(query) ||
-                p.description.toLowerCase().includes(query)
-            );
-            renderProducts(filtered, productsContainer);
-        });
+    if (cleanInput.includes("envío") || cleanInput.includes("envio") || cleanInput.includes("domicilio") || cleanInput.includes("tiempo")) {
+        return `Realizamos envíos asegurados a toda Colombia. Los tiempos de entrega toman entre **2 a 4 días hábiles** según la ciudad.`;
     }
 
-    // Filtros de Categoría
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            filterBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-
-            const category = btn.dataset.filter;
-            if (category === 'all') {
-                renderProducts(ophideaProducts, productsContainer);
-            } else {
-                const filtered = ophideaProducts.filter(p => p.category === category);
-                renderProducts(filtered, productsContainer);
-            }
-        });
-    });
-
-    // Ordenamiento
-    const sortSelect = document.getElementById('sortSelect');
-    if (sortSelect) {
-        sortSelect.addEventListener('change', (e) => {
-            const val = e.target.value;
-            let sorted = [...ophideaProducts];
-
-            if (val === 'price-low') sorted.sort((a, b) => a.price - b.price);
-            if (val === 'price-high') sorted.sort((a, b) => b.price - a.price);
-            if (val === 'rating') sorted.sort((a, b) => b.rating - a.rating);
-
-            renderProducts(sorted, productsContainer);
-        });
+    if (cleanInput.includes("asesor") || cleanInput.includes("humano") || cleanInput.includes("persona") || cleanInput.includes("hablar")) {
+        return `¡Por supuesto! Un asesor VIP de Moda Click te atenderá directamente. Haz clic aquí para chatear: <br><br><a href="https://wa.me/${CONFIG.whatsappNumber}?text=Hola,%20deseo%20hablar%20con%20un%20asesor%20humano" target="_blank" class="btn btn-gold" style="display:inline-block; padding:5px 10px; font-size:0.8rem; text-decoration:none;">Contactar en WhatsApp</a>`;
     }
 
-    // Validación de Formulario de Contacto
-    const contactForm = document.getElementById('contactForm');
-    if (contactForm) {
-        contactForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            let isValid = true;
-
-            const name = document.getElementById('name');
-            const email = document.getElementById('email');
-            const message = document.getElementById('message');
-
-            if (name.value.trim().length < 2) {
-                name.parentElement.classList.add('invalid');
-                isValid = false;
-            } else {
-                name.parentElement.classList.remove('invalid');
-            }
-
-            if (!email.value.includes('@') || !email.value.includes('.')) {
-                email.parentElement.classList.add('invalid');
-                isValid = false;
-            } else {
-                email.parentElement.classList.remove('invalid');
-            }
-
-            if (message.value.trim().length < 10) {
-                message.parentElement.classList.add('invalid');
-                isValid = false;
-            } else {
-                message.parentElement.classList.remove('invalid');
-            }
-
-            if (isValid) {
-                showToast("Mensaje enviado con éxito. Nuestro Atelier te contactará.");
-                contactForm.reset();
-            }
-        });
-    }
+    return `Gracias por contactar a Moda Click. Para una atención inmediata o personalizar tu compra, escríbenos a nuestro correo **${CONFIG.email}** o directamente a nuestro <a href="https://wa.me/${CONFIG.whatsappNumber}" target="_blank" style="color:var(--color-gold);">WhatsApp (+57 324 352 0036)</a>.`;
 }
