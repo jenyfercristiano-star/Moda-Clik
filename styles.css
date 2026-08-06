@@ -6,7 +6,7 @@
     --bg-black: #0B0B0B;
     --bg-dark: #121212;
     --bg-card: #1A1A1A;
-    --color-white:background-color: transparent;
+    --color-white: #FFFFFF;
     --color-silver: #C0C0C0;
     --color-gray: #2F2F2F;
     --color-gray-light: #888888;
@@ -60,17 +60,6 @@ ul {
     list-style: none;
 }
 
-.logo img {
-    max-height: 50px; /* Ajusta la altura según la barra de navegación */
-    width: auto;      /* Mantiene la proporción de la imagen */
-    object-fit: contain;
-    display: block;
-   background-color: transparent;
-}
-
-}
-}
-
 /* Scrollbar Personalizado */
 ::-webkit-scrollbar {
     width: 8px;
@@ -115,6 +104,11 @@ ul {
 .align-center { align-items: center; }
 .text-center { text-align: center; }
 .text-left { text-align: left; }
+.mt-2 { margin-top: 1rem; }
+.mt-3 { margin-top: 1.5rem; }
+.mt-4 { margin-top: 2rem; }
+.mb-2 { margin-bottom: 1rem; }
+.max-600 { max-width: 600px; margin-left: auto; margin-right: auto; }
 
 .gold-text {
     color: var(--color-gold);
@@ -165,6 +159,7 @@ ul {
     cursor: pointer;
     border: 1px solid transparent;
     transition: var(--transition-smooth);
+    text-align: center;
 }
 
 .btn-gold {
@@ -196,16 +191,33 @@ ul {
 /* Componente Loader & Progress */
 .loader-wrapper {
     position: fixed;
-    top:0; left:0; width:100%; height:100%;
+    top: 0; left: 0; width: 100%; height: 100%;
     background: var(--bg-black);
     z-index: 9999;
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: opacity 0.5s ease;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
 }
-.loader-content { text-align: center; }
-.snake-loader { width: 80px; height: 80px; animation: pulseGold 1.5s infinite; }
+
+.loader-wrapper.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.loader-content {
+    text-align: center;
+    color: var(--color-gold);
+    font-family: var(--font-heading);
+    letter-spacing: 4px;
+}
+
+.snake-loader {
+    width: 80px;
+    height: 80px;
+    animation: pulseGold 1.5s infinite;
+}
+
 .scroll-progress-bar {
     position: fixed;
     top: 0; left: 0; height: 3px;
@@ -238,9 +250,11 @@ ul {
     gap: 12px;
 }
 
-.snake-svg {
-    width: 42px;
-    height: 42px;
+.brand-img {
+    height: 45px;
+    width: auto;
+    object-fit: contain;
+    background-color: transparent;
 }
 
 .brand-name {
@@ -336,6 +350,10 @@ ul {
     border-bottom: 1px solid var(--color-gold);
 }
 
+.search-overlay.open {
+    display: block;
+}
+
 .search-box {
     width: 80%;
     max-width: 600px;
@@ -372,13 +390,13 @@ ul {
 
 .hero-bg-slider {
     position: absolute;
-    top:0; left:0; width:100%; height:100%;
+    top: 0; left: 0; width: 100%; height: 100%;
     z-index: -2;
 }
 
 .hero-bg-slider .slide {
     position: absolute;
-    top:0; left:0; width:100%; height:100%;
+    top: 0; left: 0; width: 100%; height: 100%;
     background-size: cover;
     background-position: center;
     opacity: 0;
@@ -391,7 +409,7 @@ ul {
 
 .hero-overlay {
     position: absolute;
-    top:0; left:0; width:100%; height:100%;
+    top: 0; left: 0; width: 100%; height: 100%;
     background: linear-gradient(180deg, rgba(11,11,11,0.3) 0%, rgba(11,11,11,0.9) 100%);
     z-index: -1;
 }
@@ -441,6 +459,7 @@ ul {
     border-radius: 8px;
     box-shadow: var(--shadow-card);
     width: 85%;
+    display: block;
 }
 
 .ophidea-image-stack .img-sub {
@@ -619,6 +638,12 @@ ul {
     border-color: var(--color-gold);
 }
 
+.promo-image img {
+    width: 100%;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
 .badge-gold {
     background: var(--color-gold);
     color: var(--bg-black);
@@ -626,6 +651,8 @@ ul {
     font-size: 0.75rem;
     font-weight: 700;
     border-radius: 20px;
+    display: inline-block;
+    margin-bottom: 15px;
 }
 
 .countdown-timer {
@@ -655,7 +682,24 @@ ul {
 
 .stars { color: var(--color-gold); margin-bottom: 15px; }
 
+.client-info {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.client-info small {
+    color: var(--color-gray-light);
+}
+
 /* ======== CONTACTO ======== */
+.contact-info .info-items p {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
 .contact-form {
     padding: 40px;
 }
@@ -679,6 +723,7 @@ ul {
     padding: 12px;
     border-radius: 4px;
     outline: none;
+    font-family: inherit;
 }
 
 .form-group input:focus, .form-group textarea:focus {
@@ -693,7 +738,7 @@ ul {
 }
 
 .form-group.invalid .error-text { display: block; }
-.form-group.invalid input { border-color: #ff4d4d; }
+.form-group.invalid input, .form-group.invalid textarea { border-color: #ff4d4d; }
 
 /* ======== FOOTER ======== */
 .footer-section {
@@ -739,7 +784,7 @@ ul {
 /* ======== CARRITO SIDEBAR ======== */
 .cart-sidebar {
     position: fixed;
-    top:0; right: -420px;
+    top: 0; right: -420px;
     width: 400px; height: 100%;
     background: var(--bg-dark);
     z-index: 2000;
@@ -805,7 +850,7 @@ ul {
 
 .overlay-backdrop {
     position: fixed;
-    top:0; left:0; width:100%; height:100%;
+    top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0,0,0,0.7);
     z-index: 1500;
     display: none;
@@ -815,7 +860,7 @@ ul {
 /* ======== MODAL LIGHTBOX ======== */
 .modal {
     position: fixed;
-    top:0; left:0; width:100%; height:100%;
+    top: 0; left: 0; width: 100%; height: 100%;
     z-index: 3000;
     display: none;
     align-items: center; justify-content: center;
@@ -849,6 +894,10 @@ ul {
     z-index: 900;
 }
 
+.scroll-top-btn.visible {
+    display: block;
+}
+
 .toast-container {
     position: fixed;
     bottom: 30px; left: 30px;
@@ -866,7 +915,7 @@ ul {
     animation: slideIn 0.3s ease;
 }
 
-/* Animations */
+/* Keyframe Animations */
 @keyframes pulseGold {
     0% { transform: scale(0.95); opacity: 0.8; }
     50% { transform: scale(1.05); opacity: 1; }
@@ -884,7 +933,7 @@ ul {
     to { transform: translateX(0); opacity: 1; }
 }
 
-/* Responsive queries */
+/* Responsive Queries */
 @media (max-width: 992px) {
     .grid-2-col, .grid-3-col, .footer-grid { grid-template-columns: 1fr; }
     .hero-title { font-size: 3.2rem; }
@@ -899,4 +948,5 @@ ul {
     .nav-menu.open { left: 0; }
     .mobile-toggle { display: block; }
     .cart-sidebar { width: 100%; right: -100%; }
+    .promo-box { padding: 30px; }
 }
