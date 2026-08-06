@@ -715,7 +715,7 @@ ul {
     color: var(--color-silver);
 }
 
-.form-group input, .form-group textarea {
+.form-group input, .form-group textarea, .form-group select {
     width: 100%;
     background: var(--bg-black);
     border: 1px solid var(--color-gray);
@@ -726,7 +726,7 @@ ul {
     font-family: inherit;
 }
 
-.form-group input:focus, .form-group textarea:focus {
+.form-group input:focus, .form-group textarea:focus, .form-group select:focus {
     border-color: var(--color-gold);
 }
 
@@ -857,7 +857,7 @@ ul {
 }
 .overlay-backdrop.open { display: block; }
 
-/* ======== MODAL LIGHTBOX ======== */
+/* ======== MODAL LIGHTBOX & CHECKOUT ======== */
 .modal {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
@@ -865,14 +865,22 @@ ul {
     display: none;
     align-items: center; justify-content: center;
     background: rgba(0,0,0,0.85);
+    overflow-y: auto;
+    padding: 20px;
 }
 
 .modal.open { display: flex; }
 
 .modal-content {
-    width: 90%; max-width: 900px;
+    width: 100%; max-width: 900px;
     position: relative;
     padding: 40px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-content-sm {
+    max-width: 500px;
 }
 
 .close-modal {
@@ -880,6 +888,147 @@ ul {
     top: 15px; right: 20px;
     background: none; border: none;
     color: var(--color-white); font-size: 2rem; cursor: pointer;
+    z-index: 10;
+}
+
+/* Opciones de Método de Pago */
+.payment-methods {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.payment-methods label {
+    flex: 1;
+    background: var(--bg-black);
+    border: 1px solid var(--color-gray);
+    padding: 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    transition: var(--transition-fast);
+}
+
+.payment-methods label:hover,
+.payment-methods input[type="radio"]:checked + span {
+    color: var(--color-gold);
+}
+
+.payment-methods input[type="radio"]:checked + span {
+    font-weight: 600;
+}
+
+/* ======== CHATBOT FLOTANTE VIP ======== */
+.chatbot-toggle {
+    position: fixed;
+    bottom: 30px;
+    right: 90px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-gold), var(--color-gold-dark));
+    color: var(--bg-black);
+    border: none;
+    cursor: pointer;
+    box-shadow: var(--shadow-gold);
+    z-index: 2500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transition: var(--transition-smooth);
+}
+
+.chatbot-toggle:hover {
+    transform: scale(1.1);
+}
+
+.chatbot-window {
+    position: fixed;
+    bottom: 95px;
+    right: 30px;
+    width: 350px;
+    height: 480px;
+    background: var(--bg-dark);
+    border: 1px solid var(--color-gold);
+    border-radius: 12px;
+    z-index: 2500;
+    display: none;
+    flex-direction: column;
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+}
+
+.chatbot-window.open {
+    display: flex;
+}
+
+.chatbot-header {
+    background: var(--bg-card);
+    padding: 15px 20px;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chatbot-messages {
+    flex-grow: 1;
+    padding: 15px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.msg {
+    max-width: 80%;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
+.msg.bot-msg {
+    background: var(--bg-card);
+    color: var(--color-white);
+    border-left: 3px solid var(--color-gold);
+    align-self: flex-start;
+}
+
+.msg.user-msg {
+    background: var(--color-gold);
+    color: var(--bg-black);
+    align-self: flex-end;
+    font-weight: 500;
+}
+
+.chatbot-footer {
+    display: flex;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    background: var(--bg-black);
+}
+
+.chatbot-footer input {
+    flex-grow: 1;
+    background: transparent;
+    border: none;
+    padding: 12px 15px;
+    color: var(--color-white);
+    font-size: 0.85rem;
+    outline: none;
+}
+
+.chatbot-footer button {
+    background: transparent;
+    border: none;
+    color: var(--color-gold);
+    padding: 0 15px;
+    cursor: pointer;
+    font-size: 1rem;
 }
 
 /* UI Extras */
@@ -949,4 +1098,10 @@ ul {
     .mobile-toggle { display: block; }
     .cart-sidebar { width: 100%; right: -100%; }
     .promo-box { padding: 30px; }
+    
+    .chatbot-window {
+        width: 90%;
+        right: 5%;
+        bottom: 90px;
+    }
 }
