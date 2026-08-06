@@ -7,7 +7,7 @@
     <!-- Fuentes de Lujo de Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400..700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Archivo de Estilos Principal -->
@@ -15,105 +15,86 @@
 </head>
 <body>
 
-    <!-- Scroll Progress Bar -->
-    <div class="scroll-progress-bar" id="progressBar"></div>
+    <!-- Barrita de Progreso de Lectura -->
+    <div id="progressBar"></div>
 
     <!-- HEADER / NAVBAR -->
-    <header class="header-fixed">
+    <header class="header-nav">
         <div class="container nav-container">
-            <a href="#" class="brand-logo">
-                <div class="brand-name">
-                    <span class="primary">MODA CLICK</span>
-                    <span class="secondary">OPHIDEA COLLECTION</span>
-                </div>
+            <a href="#" class="nav-logo">
+                MODA CLICK
             </a>
 
             <nav class="nav-menu" id="navMenu">
-                <a href="#inicio" class="nav-link active">Inicio</a>
+                <a href="#inicio" class="nav-link">Inicio</a>
                 <a href="#ophidea" class="nav-link">Ophidea</a>
                 <a href="#catalogo" class="nav-link">Catálogo</a>
                 <a href="#nosotros" class="nav-link">Nosotros</a>
                 <a href="#contacto" class="nav-link">Contacto</a>
             </nav>
 
-            <div class="nav-actions">
-                <div id="searchBtn"><i class="fas fa-search"></i></div>
-                <div id="cartBtn">
+            <div class="nav-icons">
+                <button id="openSearch" class="icon-btn" aria-label="Buscar"><i class="fas fa-search"></i></button>
+                <button id="openCart" class="icon-btn" aria-label="Carrito">
                     <i class="fas fa-shopping-bag"></i>
-                    <span class="badge" id="cartCount">0</span>
-                </div>
+                    <span class="cart-badge" id="cartCount">0</span>
+                </button>
                 <button class="mobile-toggle" id="mobileToggle">
                     <i class="fas fa-bars"></i>
                 </button>
-            </div>
-        </div>
-
-        <!-- Buscador Desplegable -->
-        <div class="search-overlay" id="searchOverlay">
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="Buscar en la colección Ophidea...">
-                <button id="closeSearch">&times;</button>
             </div>
         </div>
     </header>
 
     <!-- HERO SECTION -->
     <section id="inicio" class="hero-section">
-        <div class="hero-bg-slider">
-            <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1600');"></div>
-        </div>
-        <div class="hero-overlay"></div>
-        <div class="container hero-content text-left">
-            <span class="gold-subtitle">Alta Costura & Elegancia</span>
-            <h1 class="hero-title">Seducción en <br><span class="italic-serif">Cada Detalle</span></h1>
-            <p class="hero-description">Descubre la nueva colección Ophidea. Piezas exclusivas diseñadas con siluetas sofisticadas y texturas de lujo.</p>
-            <div class="hero-buttons">
-                <a href="#catalogo" class="btn btn-gold">Explorar Colección</a>
-                <a href="#ophidea" class="btn btn-outline">Conocer Ophidea</a>
-            </div>
-        </div>
-        <a href="#ophidea" class="scroll-down-btn"><i class="fas fa-chevron-down"></i></a>
-    </section>
-
-    <!-- SECCIÓN OPHIDEA -->
-    <section id="ophidea" class="section-padding bg-dark">
-        <div class="container grid-2-col align-center">
-            <div class="ophidea-image-stack">
-                <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800" alt="Colección Ophidea Lujo" class="img-main">
-                <div class="gold-badge-box">
-                    <span>2026</span>
-                    <small>EDICIÓN LIMITADA</small>
+        <div class="container hero-grid">
+            <div class="hero-content">
+                <span class="sub-title">Alta Costura & Elegancia</span>
+                <h1>Seducción en <br>Cada Detalle</h1>
+                <p>Descubre la nueva colección Ophidea 2026. Piezas exclusivas diseñadas con siluetas sofisticadas, textiles de alta gama y acabados impecables.</p>
+                <div class="hero-btns">
+                    <a href="#catalogo" class="btn btn-gold">Explorar Colección</a>
+                    <a href="#ophidea" class="btn btn-outline-gold">Conocer Ophidea</a>
                 </div>
             </div>
-            <div class="ophidea-content">
-                <span class="gold-subtitle">Inspiración de Autor</span>
-                <h2 class="section-title">El Arte de la <br><span class="gold-text">Colección Ophidea</span></h2>
-                <p class="paragraph">Ophidea nace de la fusión entre el misticismo, la elegancia fluida y el carácter de la moda contemporánea. Cada prenda refleja exclusividad mediante acabados meticulosos y textiles de la más alta distinción.</p>
-                <ul class="ophidea-features">
-                    <li><i class="fas fa-check gold-text"></i> Textiles de seda e hilo importado.</li>
-                    <li><i class="fas fa-check gold-text"></i> Diseños de autor de tiraje limitado.</li>
-                    <li><i class="fas fa-check gold-text"></i> Asesoría y entalle personalizado.</li>
+            <div class="hero-image">
+                <div class="img-wrapper glassmorphism">
+                    <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80" alt="Moda Click Ophidea">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN OPHIDEA / FILOSOFÍA -->
+    <section id="ophidea" class="philosophy-section">
+        <div class="container">
+            <div class="philosophy-text glassmorphism text-center">
+                <span class="sub-title">Inspiración de Autor</span>
+                <h2>El Arte de la Colección Ophidea</h2>
+                <p>Ophidea nace de la fusión entre el misticismo, la elegancia fluida y el carácter de la moda contemporánea. Cada prenda refleja exclusividad mediante acabados meticulosos y textiles de la más alta distinción.</p>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check"></i> Textiles de seda e hilo importado.</li>
+                    <li><i class="fas fa-check"></i> Diseños de autor de tiraje limitado.</li>
+                    <li><i class="fas fa-check"></i> Asesoría y entalle personalizado.</li>
                 </ul>
-                <a href="#catalogo" class="btn btn-gold mt-4">Ver Colección Ophidea</a>
             </div>
         </div>
     </section>
 
     <!-- CATÁLOGO DE PRODUCTOS -->
-    <section id="catalogo" class="section-padding bg-black">
+    <section id="catalogo" class="catalog-section">
         <div class="container">
-            <div class="text-center max-600 mb-2">
-                <span class="gold-subtitle">Selección Exclusiva</span>
+            <div class="section-header text-center">
+                <span class="sub-title">Selección Exclusiva</span>
                 <h2 class="section-title">Catálogo Ophidea</h2>
             </div>
 
-            <div class="catalog-filter-bar">
-                <div class="filter-group">
-                    <button class="filter-btn active" data-filter="all">Todos</button>
-                    <button class="filter-btn" data-filter="vestidos">Vestidos</button>
-                    <button class="filter-btn" data-filter="chaquetas">Chaquetas</button>
-                    <button class="filter-btn" data-filter="accesorios">Accesorios</button>
-                </div>
+            <div class="filter-container">
+                <button class="filter-btn active" data-filter="all">Todos</button>
+                <button class="filter-btn" data-filter="vestidos">Vestidos</button>
+                <button class="filter-btn" data-filter="chaquetas">Chaquetas</button>
+                <button class="filter-btn" data-filter="accesorios">Accesorios</button>
             </div>
 
             <!-- Grilla Dinámica de Productos -->
@@ -124,151 +105,141 @@
     </section>
 
     <!-- SECCIÓN NOSOTROS / VALORES -->
-    <section id="nosotros" class="section-padding bg-dark">
+    <section id="nosotros" class="philosophy-section">
         <div class="container">
-            <div class="text-center max-600 mb-2">
-                <span class="gold-subtitle">Nuestra Filosofía</span>
+            <div class="section-header text-center">
+                <span class="sub-title">Nuestra Filosofía</span>
                 <h2 class="section-title">¿Por Qué Moda Click?</h2>
             </div>
-            <div class="grid-3-col">
-                <div class="value-card glassmorphism">
-                    <i class="fas fa-gem card-icon"></i>
-                    <h3>Calidad Premium</h3>
-                    <p class="paragraph mt-2">Seleccionamos materiales de grado superior garantizando durabilidad y confort sublime.</p>
+            <div class="products-grid">
+                <div class="product-card glassmorphism text-center" style="padding: 2rem;">
+                    <i class="fas fa-gem" style="font-size: 2.5rem; color: var(--color-gold); margin-bottom: 1rem;"></i>
+                    <h3 style="font-family: var(--font-primary); margin-bottom: 0.5rem;">Calidad Premium</h3>
+                    <p style="color: var(--color-text-muted); font-size: 0.9rem;">Seleccionamos materiales de grado superior garantizando durabilidad y confort sublime.</p>
                 </div>
-                <div class="value-card glassmorphism">
-                    <i class="fas fa-crown card-icon"></i>
-                    <h3>Exclusividad VIP</h3>
-                    <p class="paragraph mt-2">Nuestras colecciones cuentan con unidades strictly limitadas por temporada.</p>
+                <div class="product-card glassmorphism text-center" style="padding: 2rem;">
+                    <i class="fas fa-crown" style="font-size: 2.5rem; color: var(--color-gold); margin-bottom: 1rem;"></i>
+                    <h3 style="font-family: var(--font-primary); margin-bottom: 0.5rem;">Exclusividad VIP</h3>
+                    <p style="color: var(--color-text-muted); font-size: 0.9rem;">Nuestras colecciones cuentan con unidades estrictamente limitadas por temporada.</p>
                 </div>
-                <div class="value-card glassmorphism">
-                    <i class="fas fa-truck-fast card-icon"></i>
-                    <h3>Envíos Asegurados</h3>
-                    <p class="paragraph mt-2">Despachos nacionales directos a la puerta de tu hogar con empaque de lujo.</p>
+                <div class="product-card glassmorphism text-center" style="padding: 2rem;">
+                    <i class="fas fa-truck-fast" style="font-size: 2.5rem; color: var(--color-gold); margin-bottom: 1rem;"></i>
+                    <h3 style="font-family: var(--font-primary); margin-bottom: 0.5rem;">Envíos Asegurados</h3>
+                    <p style="color: var(--color-text-muted); font-size: 0.9rem;">Despachos nacionales directos a la puerta de tu hogar con empaque de lujo.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- FORMULARIO DE CONTACTO -->
-    <section id="contacto" class="section-padding bg-black">
-        <div class="container grid-2-col align-center">
-            <div class="contact-info">
-                <span class="gold-subtitle">Atención Personalizada</span>
-                <h2 class="section-title">Envíanos tu <br><span class="gold-text">Solicitud</span></h2>
-                <p class="paragraph">¿Tienes dudas sobre una prenda, tallas o pedidos especiales? Contáctanos directamente y nuestro equipo VIP te responderá a la brevedad.</p>
-                <div class="info-items mt-4">
-                    <p><i class="fas fa-envelope gold-text"></i> modaclick307@gmail.com</p>
-                    <p><i class="fab fa-whatsapp gold-text"></i> +57 324 352 0036</p>
-                    <p><i class="fas fa-location-dot gold-text"></i> Envíos a todo el país</p>
+    <section id="contacto" class="catalog-section">
+        <div class="container hero-grid">
+            <div class="hero-content">
+                <span class="sub-title">Atención Personalizada</span>
+                <h2>Envíanos tu Solicitud</h2>
+                <p>¿Tienes dudas sobre una prenda, tallas o pedidos especiales? Contáctanos directamente y nuestro equipo VIP te responderá a la brevedad.</p>
+                <div style="margin-top: 1.5rem; line-height: 2;">
+                    <p><i class="fas fa-envelope" style="color: var(--color-gold);"></i> modaclick307@gmail.com</p>
+                    <p><i class="fab fa-whatsapp" style="color: var(--color-gold);"></i> +57 324 352 0036</p>
+                    <p><i class="fas fa-location-dot" style="color: var(--color-gold);"></i> Envíos a todo el país</p>
                 </div>
             </div>
 
-            <div class="contact-form glassmorphism">
+            <div class="glassmorphism" style="padding: 2rem;">
                 <form id="contactForm">
-                    <div class="form-group">
-                        <label for="contactName">Nombre Completo</label>
-                        <input type="text" id="contactName" name="name" required placeholder="Tu nombre">
+                    <div style="margin-bottom: 1rem;">
+                        <label style="display:block; margin-bottom: 0.3rem; font-size: 0.85rem;">Nombre Completo</label>
+                        <input type="text" id="contactName" required placeholder="Tu nombre" style="width:100%; padding: 0.7rem; background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); color: #fff; border-radius: 4px;">
                     </div>
-                    <div class="form-group">
-                        <label for="contactEmail">Correo Electrónico</label>
-                        <input type="email" id="contactEmail" name="email" required placeholder="tu@email.com">
+                    <div style="margin-bottom: 1rem;">
+                        <label style="display:block; margin-bottom: 0.3rem; font-size: 0.85rem;">Correo Electrónico</label>
+                        <input type="email" id="contactEmail" required placeholder="tu@email.com" style="width:100%; padding: 0.7rem; background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); color: #fff; border-radius: 4px;">
                     </div>
-                    <div class="form-group">
-                        <label for="contactMessage">Mensaje o Solicitud</label>
-                        <textarea id="contactMessage" name="message" rows="4" required placeholder="Escribe tu consulta..."></textarea>
+                    <div style="margin-bottom: 1rem;">
+                        <label style="display:block; margin-bottom: 0.3rem; font-size: 0.85rem;">Mensaje o Solicitud</label>
+                        <textarea id="contactMessage" rows="4" required placeholder="Escribe tu consulta..." style="width:100%; padding: 0.7rem; background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); color: #fff; border-radius: 4px;"></textarea>
                     </div>
-                    <button type="submit" class="btn btn-gold btn-block">Enviar Solicitud a WhatsApp</button>
+                    <button type="submit" class="btn btn-gold w-100">Enviar Solicitud a WhatsApp</button>
                 </form>
             </div>
         </div>
     </section>
 
     <!-- FOOTER -->
-    <footer class="footer-section">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <h3 class="gold-text" style="font-family: var(--font-heading); margin-bottom: 15px;">MODA CLICK</h3>
-                    <p class="paragraph" style="font-size: 0.85rem;">Colección Ophidea. Elegancia, distinción y exclusividad a tu alcance.</p>
-                </div>
-                <div class="footer-col">
-                    <h4>Navegación</h4>
-                    <ul>
-                        <li><a href="#inicio">Inicio</a></li>
-                        <li><a href="#ophidea">Ophidea</a></li>
-                        <li><a href="#catalogo">Catálogo</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Contacto</h4>
-                    <ul>
-                        <li><a href="mailto:modaclick307@gmail.com">modaclick307@gmail.com</a></li>
-                        <li><a href="https://wa.me/573243520036" target="_blank">+57 324 352 0036</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Síguenos</h4>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="https://wa.me/573243520036" target="_blank"><i class="fab fa-whatsapp"></i></a>
-                    </div>
-                </div>
+    <footer class="main-footer">
+        <div class="container footer-grid">
+            <div class="footer-col">
+                <h3 class="nav-logo">MODA CLICK</h3>
+                <p>Colección Ophidea. Elegancia, distinción y exclusividad a tu alcance.</p>
             </div>
-            <div class="footer-bottom text-center">
-                <p>&copy; 2026 Moda Click - Todos los derechos reservados. Colección Ophidea.</p>
+            <div class="footer-col">
+                <h4>Navegación</h4>
+                <ul>
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#ophidea">Ophidea</a></li>
+                    <li><a href="#catalogo">Catálogo</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contacto</h4>
+                <p><i class="fas fa-envelope"></i> modaclick307@gmail.com</p>
+                <p><i class="fab fa-whatsapp"></i> +57 324 352 0036</p>
+            </div>
+            <div class="footer-col">
+                <h4>Síguenos</h4>
+                <div style="display: flex; gap: 1rem; font-size: 1.2rem; margin-top: 0.5rem;">
+                    <a href="#" style="color: var(--color-gold);"><i class="fab fa-instagram"></i></a>
+                    <a href="#" style="color: var(--color-gold);"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://wa.me/573243520036" target="_blank" style="color: var(--color-gold);"><i class="fab fa-whatsapp"></i></a>
+                </div>
             </div>
         </div>
+        <div class="footer-bottom text-center">
+            <p>&copy; 2026 Moda Click - Todos los derechos reservados. Colección Ophidea.</p>
+        </div>
     </footer>
+
+    <!-- OVERLAY BUSCADOR -->
+    <div class="search-overlay" id="searchOverlay">
+        <button class="close-search" id="closeSearch">&times;</button>
+        <input type="text" class="search-input" id="searchInput" placeholder="Escribe para buscar un producto...">
+    </div>
 
     <!-- CARRITO SIDEBAR -->
     <div class="overlay-backdrop" id="overlayBackdrop"></div>
     <aside class="cart-sidebar" id="cartSidebar">
         <div class="cart-header">
             <h3>Tu Carrito VIP</h3>
-            <button class="close-sidebar" id="closeCart">&times;</button>
+            <button class="close-cart" id="closeCart">&times;</button>
         </div>
         <div class="cart-body" id="cartBody">
-            <!-- Items agregados del carrito -->
+            <p class="empty-cart-msg">Tu carrito está vacío.</p>
         </div>
         <div class="cart-footer">
-            <div class="cart-total-line">
+            <div class="cart-total-box">
                 <span>Total:</span>
-                <span id="cartTotal" class="gold-text">$0 COP</span>
+                <span id="cartTotal">$0 COP</span>
             </div>
-            <button class="btn btn-gold btn-block mt-2" id="checkoutBtn">Finalizar Pedido por WhatsApp</button>
+            <button class="btn btn-gold w-100" id="checkoutBtn">Finalizar Pedido por WhatsApp</button>
         </div>
     </aside>
 
-    <!-- CONTESTADOR AUTOMÁTICO (CHATBOT VIP) -->
-    <button id="chatbotToggle" class="chatbot-toggle" aria-label="Abrir Asistente VIP">
+    <!-- CHATBOT VIP -->
+    <button class="chatbot-toggle" id="chatbotToggle" aria-label="Abrir Asistente VIP">
         <i class="fas fa-comments"></i>
     </button>
-
-    <div id="chatbotWindow" class="chatbot-window">
+    <div class="chatbot-window glassmorphism" id="chatbotWindow">
         <div class="chatbot-header">
-            <div class="chatbot-info">
-                <i class="fas fa-robot gold-text"></i>
-                <div>
-                    <h4>Asistente Ophidea VIP</h4>
-                    <small>Respuesta automática 24/7</small>
-                </div>
-            </div>
-            <button id="closeChatbot">&times;</button>
+            <h4>Asistente Ophidea VIP</h4>
+            <button class="close-chatbot" id="closeChatbot">&times;</button>
         </div>
-        <div id="chatMessages" class="chatbot-messages">
+        <div class="chat-messages" id="chatMessages">
             <div class="msg bot-msg">
                 ¡Hola! Bienvenido a Moda Click. Soy tu contestador automático. ¿En qué puedo ayudarte hoy con la Colección Ophidea?
             </div>
         </div>
-        <div class="chatbot-quick-options">
-            <button class="quick-btn" onclick="sendQuickReply('Precios y Catálogo')">Precios</button>
-            <button class="quick-btn" onclick="sendQuickReply('Tallas y Guía')">Tallas</button>
-            <button class="quick-btn" onclick="sendQuickReply('Tiempos de Envío')">Envíos</button>
-            <button class="quick-btn" onclick="sendQuickReply('Hablar con un asesor')">Asesor Humano</button>
-        </div>
-        <div class="chatbot-footer">
+        <div class="chat-input-box">
             <input type="text" id="chatInput" placeholder="Escribe tu consulta...">
             <button id="sendChatMsg"><i class="fas fa-paper-plane"></i></button>
         </div>
