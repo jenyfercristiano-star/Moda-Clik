@@ -3,13 +3,14 @@
    Lógica JavaScript Principal & Contestador Automático (Chatbot VIP)
    ========================================================================== */
 
-// Configuración de contacto
+// --------------------------------------------------------------------------
+// 1. CONFIGURACIÓN Y BASE DE DATOS
+// --------------------------------------------------------------------------
 const CONFIG = {
     whatsappNumber: "573243520036",
     email: "modaclick307@gmail.com"
 };
 
-// Base de Datos de Productos
 const productsData = [
     {
         id: 1,
@@ -61,10 +62,12 @@ const productsData = [
     }
 ];
 
-// Estado global del carrito
-let cart = [];
+// Estado global del carrito (persistido en localStorage)
+let cart = JSON.parse(localStorage.getItem("modaclick_cart")) || [];
 
-// DOM Loaded Inicial
+// --------------------------------------------------------------------------
+// 2. INICIALIZACIÓN DEL DOM
+// --------------------------------------------------------------------------
 document.addEventListener("DOMContentLoaded", () => {
     initScrollProgress();
     renderProducts(productsData);
@@ -73,10 +76,11 @@ document.addEventListener("DOMContentLoaded", () => {
     initCartSystem();
     initContactForm();
     initChatbot();
+    updateCartUI(); // Carga elementos guardados previamente
 });
 
 /* ==========================================================================
-   1. BARRAS DE NAVEGACIÓN Y SCROLL
+   3. BARRAS DE NAVEGACIÓN Y SCROLL PROGRESS
    ========================================================================== */
 function initScrollProgress() {
     const progressBar = document.getElementById("progressBar");
@@ -84,10 +88,9 @@ function initScrollProgress() {
         const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
         const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
         const scrolled = (winScroll / height) * 100;
-        if (progressBar) progressBar.style.width = scrolled + "%";
+        if (progressBar) progressBar.style.width = `${scrolled}%`;
     });
 
-    // Menú móvil
     const mobileToggle = document.getElementById("mobileToggle");
     const navMenu = document.getElementById("navMenu");
     if (mobileToggle && navMenu) {
@@ -98,7 +101,7 @@ function initScrollProgress() {
 }
 
 /* ==========================================================================
-   2. CATÁLOGO Y FILTROS
+   4. CATÁLOGO Y FILTROS
    ========================================================================== */
 function renderProducts(products) {
     const grid = document.getElementById("productsGrid");
@@ -107,16 +110,18 @@ function renderProducts(products) {
     grid.innerHTML = "";
 
     if (products.length === 0) {
-        grid.innerHTML = `<p class="paragraph text-center" style="grid-column: 1/-1;">No se encontraron productos en esta categoría.</p>`;
+        grid.innerHTML = `<p class="paragraph text-center" style="grid-column: 1/-1; color: var(--color-text-muted);">No se encontraron productos en esta categoría.</p>`;
         return;
     }
+
+    const fragment = document.createDocumentFragment();
 
     products.forEach(p => {
         const card = document.createElement("div");
         card.className = "product-card glassmorphism";
         card.innerHTML = `
             <div class="product-img-box">
-                <img src="${p.image}" alt="${p.name}">
+                <img src="${p.image}" alt="${p.name}" loading="lazy">
             </div>
             <div class="product-info">
                 <span class="product-cat">${p.category.toUpperCase()}</span>
@@ -130,8 +135,10 @@ function renderProducts(products) {
                 </div>
             </div>
         `;
-        grid.appendChild(card);
+        fragment.appendChild(card);
     });
+
+    grid.appendChild(fragment);
 }
 
 function initFilterSystem() {
@@ -152,7 +159,7 @@ function initFilterSystem() {
 }
 
 /* ==========================================================================
-   3. BUSCADOR DESPLEGABLE
+   5. BUSCADOR DESPLEGABLE
    ========================================================================== */
 function initSearchSystem() {
     const searchBtn = document.getElementById("searchBtn");
@@ -178,7 +185,8 @@ function initSearchSystem() {
             const query = e.target.value.toLowerCase().trim();
             const filtered = productsData.filter(p => 
                 p.name.toLowerCase().includes(query) || 
-                p.description.toLowerCase().includes(query)
+                p.description.toLowerCase().includes(query) ||
+                p.category.toLowerCase().includes(query)
             );
             renderProducts(filtered);
         });
@@ -186,7 +194,7 @@ function initSearchSystem() {
 }
 
 /* ==========================================================================
-   4. SISTEMA DE CARRITO DE COMPRAS
+   6. SISTEMA DE CARRITO DE COMPRAS CON PERSISTENCIA
    ========================================================================== */
 function initCartSystem() {
     const cartBtn = document.getElementById("cartBtn");
@@ -197,11 +205,11 @@ function initCartSystem() {
 
     const toggleCart = (show) => {
         if (show) {
-            cartSidebar.classList.add("active");
-            overlayBackdrop.classList.add("active");
+            cartSidebar?.classList.add("active");
+            overlayBackdrop?.classList.add("active");
         } else {
-            cartSidebar.classList.remove("active");
-            overlayBackdrop.classList.remove("active");
+            cartSidebar?.classList.remove("active");
+            overlayBackdrop?.classList.remove("active");
         }
     };
 
@@ -225,9 +233,9 @@ function addToCart(productId) {
         cart.push({ ...product, quantity: 1 });
     }
 
-    updateCartUI();
-    document.getElementById("cartSidebar").classList.add("active");
-    document.getElementById("overlayBackdrop").classList.add("active");
+    saveAndRefreshCart();
+    document.getElementById("cartSidebar")?.classList.add("active");
+    document.getElementById("overlayBackdrop")?.classList.add("active");
 }
 
 function updateCartQuantity(productId, delta) {
@@ -238,6 +246,11 @@ function updateCartQuantity(productId, delta) {
     if (item.quantity <= 0) {
         cart = cart.filter(i => i.id !== productId);
     }
+    saveAndRefreshCart();
+}
+
+function saveAndRefreshCart() {
+    localStorage.setItem("modaclick_cart", JSON.stringify(cart));
     updateCartUI();
 }
 
@@ -253,8 +266,9 @@ function updateCartUI() {
     let totalItems = 0;
 
     if (cart.length === 0) {
-        cartBody.innerHTML = `<p class="text-center paragraph mt-4">Tu carrito está vacío.</p>`;
+        cartBody.innerHTML = `<p class="text-center paragraph mt-4" style="color: var(--color-text-muted);">Tu carrito está vacío.</p>`;
     } else {
+        const fragment = document.createDocumentFragment();
         cart.forEach(item => {
             const itemSubtotal = item.price * item.quantity;
             total += itemSubtotal;
@@ -262,20 +276,21 @@ function updateCartUI() {
 
             const cartItemHTML = document.createElement("div");
             cartItemHTML.className = "cart-item";
-            cartItemHTML.style.cssText = "display:flex; align-items:center; justify-content:space-between; margin-bottom:15px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px;";
             cartItemHTML.innerHTML = `
-                <div style="flex:1;">
-                    <h5 style="color:var(--color-gold); font-size:0.9rem;">${item.name}</h5>
-                    <small style="color:var(--color-silver);">$${item.price.toLocaleString("es-CO")} x ${item.quantity}</small>
+                <img src="${item.image}" alt="${item.name}">
+                <div class="cart-item-details">
+                    <h5 class="cart-item-title">${item.name}</h5>
+                    <span class="cart-item-price">$${item.price.toLocaleString("es-CO")}</span>
                 </div>
-                <div style="display:flex; align-items:center; gap:8px;">
-                    <button style="background:#222; color:#fff; border:1px solid #444; width:25px; height:25px; cursor:pointer;" onclick="updateCartQuantity(${item.id}, -1)">-</button>
-                    <span>${item.quantity}</span>
-                    <button style="background:#222; color:#fff; border:1px solid #444; width:25px; height:25px; cursor:pointer;" onclick="updateCartQuantity(${item.id}, 1)">+</button>
+                <div style="display:flex; align-items:center; gap:6px;">
+                    <button class="btn-add-cart" style="padding: 2px 8px;" onclick="updateCartQuantity(${item.id}, -1)">-</button>
+                    <span style="font-weight: bold; font-size: 0.9rem;">${item.quantity}</span>
+                    <button class="btn-add-cart" style="padding: 2px 8px;" onclick="updateCartQuantity(${item.id}, 1)">+</button>
                 </div>
             `;
-            cartBody.appendChild(cartItemHTML);
+            fragment.appendChild(cartItemHTML);
         });
+        cartBody.appendChild(fragment);
     }
 
     if (cartCount) cartCount.textContent = totalItems;
@@ -305,7 +320,7 @@ function sendCartToWhatsApp() {
 }
 
 /* ==========================================================================
-   5. FORMULARIO DE CONTACTO DIRECTO A WHATSAPP
+   7. FORMULARIO DE CONTACTO DIRECTO A WHATSAPP
    ========================================================================== */
 function initContactForm() {
     const contactForm = document.getElementById("contactForm");
@@ -314,9 +329,9 @@ function initContactForm() {
     contactForm.addEventListener("submit", (e) => {
         e.preventDefault();
 
-        const name = document.getElementById("contactName").value;
-        const email = document.getElementById("contactEmail").value;
-        const userMsg = document.getElementById("contactMessage").value;
+        const name = document.getElementById("contactName")?.value || "";
+        const email = document.getElementById("contactEmail")?.value || "";
+        const userMsg = document.getElementById("contactMessage")?.value || "";
 
         const formattedMsg = `*NUEVA SOLICITUD DE CLIENTE - MODA CLICK*\n\n` +
             `*Nombre:* ${name}\n` +
@@ -331,7 +346,7 @@ function initContactForm() {
 }
 
 /* ==========================================================================
-   6. CONTESTADOR AUTOMÁTICO (CHATBOT VIP)
+   8. CONTESTADOR AUTOMÁTICO (CHATBOT VIP)
    ========================================================================== */
 function initChatbot() {
     const chatbotToggle = document.getElementById("chatbotToggle");
@@ -371,7 +386,7 @@ function handleUserChatMessage() {
     setTimeout(() => {
         const botReply = generateBotResponse(text);
         appendChatMessage(botReply, "bot");
-    }, 600);
+    }, 500);
 }
 
 function sendQuickReply(optionText) {
@@ -379,7 +394,7 @@ function sendQuickReply(optionText) {
     setTimeout(() => {
         const botReply = generateBotResponse(optionText);
         appendChatMessage(botReply, "bot");
-    }, 600);
+    }, 500);
 }
 
 function appendChatMessage(message, sender) {
@@ -401,8 +416,8 @@ function generateBotResponse(input) {
         return `Nuestros vestidos y prendas de la Colección Ophidea oscilan entre los $95.000 y $390.000 COP. Puedes explorar el catálogo completo arriba o hacer tu pedido personalizado por <a href="https://wa.me/${CONFIG.whatsappNumber}" target="_blank" style="color:var(--color-gold); font-weight:bold;">WhatsApp aquí</a>.`;
     }
 
-    if (cleanInput.includes("talla") || cleanInput.includes("medida") || cleanInput.includes("guía")) {
-        return `Manejamos tallas estándar XS, S, M y L. Además, ofrecemos el servicio de **entalle personalizado** para prendas de la Colección Ophidea. ¿Te gustaría asesoría con tus medidas?`;
+    if (cleanInput.includes("talla") || cleanInput.includes("medida") || cleanInput.includes("guía") || cleanInput.includes("guia")) {
+        return `Manejamos tallas estándar XS, S, M y L. Además, ofrecemos el servicio de **entalle personalizado** para prendas de la Colección Ophidea. ¿Te gustaría recibir asesoría personalizada?`;
     }
 
     if (cleanInput.includes("envío") || cleanInput.includes("envio") || cleanInput.includes("domicilio") || cleanInput.includes("tiempo")) {
